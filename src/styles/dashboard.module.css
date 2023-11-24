@@ -1,0 +1,80 @@
+.main {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff;
+  display: flex;
+}
+
+.sidebar {
+  background-color: #181828;
+  flex: 1;
+  max-width: 30rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem;
+  gap: 3rem;
+}
+
+.page,
+.leftSide {
+  flex: 1;
+}
+.page {
+  padding: 3rem;
+}
+
+.list {
+  width: 100%;
+  flex: 1;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.link,
+.linkActive {
+  width: 100%;
+  transition: all ease 0.3s;
+  cursor: pointer;
+  border-radius: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  height: 5rem;
+}
+
+.link:hover,
+.linkActive {
+  background-color: #2f2f43;
+}
+
+.linkSpan {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  text-transform: capitalize;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 7rem;
+  background-color: #2f2f43;
+  padding: 1.5rem 3rem;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  cursor: pointer;
+  color: #fff;
+  border-left: solid thin #fff;
+  height: 100%;
+}

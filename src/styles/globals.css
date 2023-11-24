@@ -1,107 +1,77 @@
 :root {
-  --max-width: 1100px;
+  --font: sans-serif;
+
+  --regular: 400;
+  --semibold: 500;
+  --bold: 700;
+
   --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --border: 1px solid rgba(255, 255, 255, 0.06);
 
-  --primary-glow: conic-gradient(
-    from 180deg at 50% 50%,
-    #16abff33 0deg,
-    #0885ff33 55deg,
-    #54d6ff33 120deg,
-    #0071ff33 160deg,
-    transparent 360deg
-  );
-  --secondary-glow: radial-gradient(
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0)
-  );
+  --main-background: #181828;
+  --secondary-background: #2f2f43;
+  --white: #ffffff;
+  --transparent: transparent;
+  --text-800: #fefefecc;
+  --text-600: #ffffff99;
+  --btn-background: linear-gradient(99deg, #236bfe 6.69%, #0d4ed3 80.95%);
 
-  --tile-start-rgb: 239, 245, 249;
-  --tile-end-rgb: 228, 232, 233;
-  --tile-border: conic-gradient(
-    #00000080,
-    #00000040,
-    #00000030,
-    #00000020,
-    #00000010,
-    #00000010,
-    #00000080
-  );
-
-  --callout-rgb: 238, 240, 241;
-  --callout-border-rgb: 172, 175, 176;
-  --card-rgb: 180, 185, 188;
-  --card-border-rgb: 131, 134, 135;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(
-      to bottom right,
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0),
-      rgba(1, 65, 255, 0.3)
-    );
-
-    --tile-start-rgb: 2, 13, 46;
-    --tile-end-rgb: 2, 5, 19;
-    --tile-border: conic-gradient(
-      #ffffff80,
-      #ffffff40,
-      #ffffff30,
-      #ffffff20,
-      #ffffff10,
-      #ffffff10,
-      #ffffff80
-    );
-
-    --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200;
-  }
+  --main-shadow: 0px 4px 30px 0px rgba(34, 105, 251, 0.8);
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: var(--font);
 }
 
-html,
+html {
+  font-size: 62.5%;
+}
+
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  background: var(--main-background);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 1.6rem;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-a {
+a,
+button {
   color: inherit;
   text-decoration: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+input {
+  background-color: var(--transparent);
+  outline: none;
+  border: none;
+  color: var(--white);
+}
+
+button {
+  background: var(--btn-background);
+  box-shadow: var(--main-shadow);
+  border-radius: var(--border-radius);
+  padding: 2.2rem 3.8rem;
+  color: var(--white);
+  font-size: 1.8rem;
+  font-weight: var(--bold);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--bold);
+}
+
+p {
+  font-weight: var(--regular);
+  font-size: 1.8rem;
 }
