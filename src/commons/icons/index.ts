@@ -7,3 +7,4 @@ export * from './Chart';
 export * from './Basket';
 export * from './Dollar';
 export * from './Receipt';
+export * from './Clock';

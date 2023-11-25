@@ -1,4 +1,4 @@
-import { BookContent, Chart, Gear, Home, PurchaseTag } from '@/commons/icons';
+import { BookContent, Chart, Clock, Gear, Home, PurchaseTag } from '@/commons/icons';
 
 const LOGIN = '/login';
 const DASHBOARD = '/';
@@ -20,9 +20,14 @@ const SIDEBAR = [
     icon: <BookContent />,
   },
   {
-    name: 'Ventas',
+    name: 'Venta de productos',
     href: '/ventas',
     icon: <PurchaseTag />,
+  },
+  {
+    name: 'Historial de ventas',
+    href: '/historial',
+    icon: <Clock />,
   },
   {
     name: 'Reportes',

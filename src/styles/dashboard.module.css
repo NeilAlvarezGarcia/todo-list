@@ -14,7 +14,7 @@
 .sidebar {
   background-color: #181828;
   flex: 1;
-  max-width: 30rem;
+  max-width: 32rem;
   color: #fff;
   display: flex;
   flex-direction: column;
