@@ -1,5 +1,5 @@
 import { db } from '@/config/firebase';
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 
 async function getDocument(collection: string, documentId: string) {
   const docRef = doc(db, collection, documentId);
@@ -23,4 +23,8 @@ async function setDocument(collectionName: string, id: string, data: any) {
   await setDoc(doc(db, collectionName, id), data);
 }
 
-export { getDocument, getDocuments, setDocument };
+async function deleteDocument(collection: string, documentId: string) {
+  await deleteDoc(doc(db, collection, documentId));
+}
+
+export { getDocument, getDocuments, setDocument, deleteDocument };

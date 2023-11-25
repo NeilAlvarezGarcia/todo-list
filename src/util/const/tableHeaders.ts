@@ -14,4 +14,13 @@ const TABLE_PRODUCTS_HEADER = [
   { id: 'actions', name: 'Acciones' },
 ];
 
-export { TABLE_USERS_HEADER, TABLE_PRODUCTS_HEADER };
+const TABLE_HISTORIES_HEADER = [
+  { id: 'date', name: 'Fecha registro' },
+  { id: 'idPurchase', name: 'Número venta' },
+  { id: 'typeDocument', name: 'Tipo docuemnto' },
+  { id: 'documentNumber', name: 'Documento cliente' },
+  { id: 'clientName', name: 'NombreCliente' },
+  { id: 'total', name: 'Total' },
+];
+
+export { TABLE_USERS_HEADER, TABLE_PRODUCTS_HEADER, TABLE_HISTORIES_HEADER };

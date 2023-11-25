@@ -30,9 +30,7 @@ const Home = () => {
 
           <div className={s.content}>
             <div className={s.leftSideContent}>
-              <PageLayout title='Ventas de los últimos 7 días'>
-                <p>Esta debe ser una gráfica de barras</p>
-              </PageLayout>
+              <PageLayout title='Ventas de los últimos 7 días'></PageLayout>
             </div>
 
             <div className={s.rightSideContent}>

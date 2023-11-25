@@ -3,11 +3,9 @@ import { Table } from '@/commons/Table';
 import Head from 'next/head';
 import { getUsers } from '@/services';
 import { User } from '@/interfaces';
-import { FC, Fragment, useState } from 'react';
+import { FC, useState } from 'react';
 import { TABLE_USERS_HEADER, revalidateInterval } from '@/util/const';
-import s from '@/styles/forms.module.css';
-import { TrashCan } from '@/commons/icons';
-import { AddUser } from '@/components/administracion';
+import { AddUser, UserTableRow } from '@/components/administracion';
 
 type Props = {
   data: User[];
@@ -35,18 +33,7 @@ const Administracion: FC<Props> = ({ data }) => {
           <Table
             headers={TABLE_USERS_HEADER}
             data={users as unknown as Record<string, string | number>[]}
-            row={(item, i) => (
-              <Fragment key={i}>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.role}</td>
-                <td>
-                  <div className={s.deleteBtn}>
-                    <TrashCan />
-                  </div>
-                </td>
-              </Fragment>
-            )}
+            row={(item, i) => <UserTableRow key={i} user={item as unknown as User} />}
           />
         </PageLayout>
       </DashboardLayout>

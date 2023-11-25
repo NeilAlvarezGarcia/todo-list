@@ -89,3 +89,27 @@
   margin-top: 3rem;
   color: var(--main-background);
 }
+
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.editAction {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteAction {
+  background: #eb1c09;
+  box-shadow: none;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

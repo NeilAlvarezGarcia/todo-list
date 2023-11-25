@@ -1,7 +1,8 @@
-import { TrashCan } from '@/commons/icons';
+import { Edit, TrashCan } from '@/commons/icons';
 import { Product } from '@/interfaces';
 import { formatCurrency } from '@/util/helpers';
 import { FC } from 'react';
+import s from '@/styles/table.module.css';
 
 type Props = {
   product: Product;
@@ -21,10 +22,12 @@ export const ProductTableRow: FC<Props> = ({ product }) => {
       <td>{product.state}</td>
 
       <td>
-        <div>
-          <button>edit</button>
+        <div className={s.actionsContainer}>
+          <button className={s.editAction}>
+            <Edit />
+          </button>
 
-          <button>
+          <button className={s.deleteAction}>
             <TrashCan />
           </button>
         </div>
