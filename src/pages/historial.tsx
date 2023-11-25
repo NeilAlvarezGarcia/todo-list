@@ -1,4 +1,4 @@
-import { DashboardLayout, PageLayout } from '@/commons/layouts';
+import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import { TABLE_HISTORIES_HEADER } from '@/util/const';
 import Head from 'next/head';
@@ -12,7 +12,7 @@ const Ventas = () => {
       </Head>
 
       <DashboardLayout>
-        <PageLayout title='Historial de ventas'>
+        <SectionLayout title='Historial de ventas'>
           <Table
             headers={TABLE_HISTORIES_HEADER}
             data={[]}
@@ -27,7 +27,7 @@ const Ventas = () => {
               </Fragment>
             )}
           />
-        </PageLayout>
+        </SectionLayout>
       </DashboardLayout>
     </>
   );

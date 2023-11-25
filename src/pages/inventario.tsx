@@ -1,4 +1,4 @@
-import { DashboardLayout, PageLayout } from '@/commons/layouts';
+import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import { Product } from '@/interfaces';
 import { getProducts } from '@/services';
@@ -28,7 +28,7 @@ const Inventario: FC<Props> = ({ data }) => {
       </Head>
 
       <DashboardLayout>
-        <PageLayout title='Lista de productos'>
+        <SectionLayout title='Lista de productos'>
           <AddProduct refresh={refreshData} />
 
           <Table
@@ -36,7 +36,7 @@ const Inventario: FC<Props> = ({ data }) => {
             data={prodcucts as unknown as Record<string, string | number>[]}
             row={(item, i) => <ProductTableRow key={i} product={item as unknown as Product} />}
           />
-        </PageLayout>
+        </SectionLayout>
       </DashboardLayout>
     </>
   );

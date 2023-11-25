@@ -1,4 +1,4 @@
-import { DashboardLayout, PageLayout } from '@/commons/layouts';
+import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import Head from 'next/head';
 import s from '@/styles/sales.module.css';
 
@@ -13,21 +13,21 @@ const Ventas = () => {
         <section className={s.wapper}>
           <section className={s.leftSide}>
             <div className={s.topSide}>
-              <PageLayout title='Datos del cliente'>
+              <SectionLayout title='Datos del cliente'>
                 <p>Acá un form para los datos del cliente</p>
-              </PageLayout>
+              </SectionLayout>
             </div>
 
             <div className={s.bottomSide}>
-              <PageLayout title='Productos'>
+              <SectionLayout title='Productos'>
                 <p>Acá un form para seleccionar productos</p>
-              </PageLayout>
+              </SectionLayout>
             </div>
           </section>
 
-          <PageLayout title='Detalle de la compra'>
+          <SectionLayout title='Detalle de la compra'>
             <p>Acá un form para los detalles de la compra</p>
-          </PageLayout>
+          </SectionLayout>
         </section>
       </DashboardLayout>
     </>

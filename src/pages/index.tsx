@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import s from '@/styles/Home.module.css';
-import { DashboardLayout, PageLayout } from '@/commons/layouts';
+import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { salesData } from '@/mocks';
 
 const Home = () => {
@@ -30,13 +30,11 @@ const Home = () => {
 
           <div className={s.content}>
             <div className={s.leftSideContent}>
-              <PageLayout title='Ventas de los últimos 7 días'></PageLayout>
+              <SectionLayout title='Ventas de los últimos 7 días'></SectionLayout>
             </div>
 
             <div className={s.rightSideContent}>
-              <PageLayout title='Productos más vendidos'>
-                <p>Esta debe ser una gráfica circular</p>
-              </PageLayout>
+              <SectionLayout title='Productos más vendidos'></SectionLayout>
             </div>
           </div>
         </div>

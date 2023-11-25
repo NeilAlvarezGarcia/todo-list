@@ -1,4 +1,4 @@
-import { DashboardLayout, PageLayout } from '@/commons/layouts';
+import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import Head from 'next/head';
 import { getUsers } from '@/services';
@@ -27,7 +27,7 @@ const Administracion: FC<Props> = ({ data }) => {
       </Head>
 
       <DashboardLayout>
-        <PageLayout title='Lista de usuarios'>
+        <SectionLayout title='Lista de usuarios'>
           <AddUser refresh={refreshData} />
 
           <Table
@@ -35,7 +35,7 @@ const Administracion: FC<Props> = ({ data }) => {
             data={users as unknown as Record<string, string | number>[]}
             row={(item, i) => <UserTableRow key={i} user={item as unknown as User} />}
           />
-        </PageLayout>
+        </SectionLayout>
       </DashboardLayout>
     </>
   );

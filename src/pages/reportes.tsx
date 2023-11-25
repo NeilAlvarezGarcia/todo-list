@@ -1,4 +1,4 @@
-import { DashboardLayout, PageLayout } from '@/commons/layouts';
+import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import Head from 'next/head';
 import { Fragment } from 'react';
@@ -11,7 +11,7 @@ const Reportes = () => {
       </Head>
 
       <DashboardLayout>
-        <PageLayout title='Reportes de ventas'>
+        <SectionLayout title='Reportes de ventas'>
           <Table
             headers={[
               { id: 'head1', name: 'head 1' },
@@ -33,7 +33,7 @@ const Reportes = () => {
               </Fragment>
             )}
           />
-        </PageLayout>
+        </SectionLayout>
       </DashboardLayout>
     </>
   );

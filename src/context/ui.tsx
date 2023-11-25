@@ -21,8 +21,8 @@ const uiContext = createContext(INITIAL_STATE);
 export const UiProvider: FC<PropsWithChildren> = ({ children }) => {
   const { user } = useUser();
 
-  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebar, setSidebar] = useState<SideBar[] | []>([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSideBar = () => setSidebarOpen((prevState) => !prevState);
 
