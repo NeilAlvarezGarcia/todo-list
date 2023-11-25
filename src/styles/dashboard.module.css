@@ -31,7 +31,12 @@
 }
 
 .sidebarHeader button {
-  padding: 0.7rem 1.2rem;
+  width: 4.5rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .page,

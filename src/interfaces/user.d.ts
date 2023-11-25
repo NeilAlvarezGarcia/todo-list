@@ -4,6 +4,7 @@ export interface User {
   email: string;
   role: UserRol;
   name: string;
+  uid: string;
 }
 
 export interface FormData {

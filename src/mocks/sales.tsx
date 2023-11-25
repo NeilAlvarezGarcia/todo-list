@@ -1,5 +1,5 @@
 import { Basket, Dollar, Receipt } from '@/commons/icons';
-import { formatCurrency } from '@/helpers';
+import { formatCurrency } from '@/util/helpers';
 
 export const salesData = [
   {

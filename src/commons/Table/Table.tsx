@@ -1,16 +1,19 @@
 import { Chevron } from '@/commons/icons';
 import s from '@/styles/table.module.css';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
+
+type tableDataRecord = Record<string, string | number>;
 
 type Props = {
   headers: {
     id: string;
     name: string;
   }[];
-  data: (string | number)[][];
+  data: tableDataRecord[];
+  row: (item: tableDataRecord, i: number) => ReactNode;
 };
 
-export const Table: FC<Props> = ({ headers = [], data = [] }) => {
+export const Table: FC<Props> = ({ headers = [], data = [], row = () => null }) => {
   return (
     <div className={s.tableWrapper}>
       <table className={s.table}>
@@ -23,12 +26,8 @@ export const Table: FC<Props> = ({ headers = [], data = [] }) => {
         </thead>
 
         <tbody className={s.tableBody}>
-          {data.map((item) => (
-            <tr key={1}>
-              {item.map((value) => (
-                <td key={2}>{value}</td>
-              ))}
-            </tr>
+          {data.map((item, i) => (
+            <tr key={item.id}>{row(item, i)}</tr>
           ))}
         </tbody>
       </table>
@@ -37,7 +36,7 @@ export const Table: FC<Props> = ({ headers = [], data = [] }) => {
         <div className={s.dataPerPage}>
           <p>filas por página</p>
 
-          <select name='' id='' value={10}>
+          <select name='' id='' value={10} onChange={() => {}}>
             <option value='10'>10</option>
             <option value='20'>20</option>
             <option value='30'>30</option>

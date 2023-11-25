@@ -1,6 +1,6 @@
 import { auth } from '@/config/firebase';
 import { UiProvider, UserProvider } from '@/context';
-import { DASHBOARD, LOGIN } from '@/helpers/const';
+import { DASHBOARD, LOGIN } from '@/util/const';
 import '@/styles/globals.css';
 import { onAuthStateChanged } from 'firebase/auth';
 import type { AppProps } from 'next/app';

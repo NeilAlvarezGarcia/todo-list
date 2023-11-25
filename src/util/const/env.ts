@@ -5,4 +5,14 @@ const storageBucket = process.env.NEXT_PUBLIC_STORAGE_BUCKET;
 const messagingSenderId = process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID;
 const appId = process.env.NEXT_PUBLIC_APP_ID;
 
-export { apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId };
+const revalidateInterval = 3600;
+
+export {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  revalidateInterval,
+};

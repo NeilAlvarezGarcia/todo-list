@@ -1,5 +1,5 @@
-import { getDocument } from '@/helpers';
-import { USERS } from '@/helpers/const';
+import { getDocument, getDocuments } from '@/util/helpers';
+import { USERS } from '@/util/const';
 
 async function getUser(uid?: string) {
   if (!uid) return;
@@ -7,4 +7,8 @@ async function getUser(uid?: string) {
   return await getDocument(USERS, uid);
 }
 
-export { getUser };
+async function getUsers() {
+  return await getDocuments(USERS);
+}
+
+export { getUser, getUsers };

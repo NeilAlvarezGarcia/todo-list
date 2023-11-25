@@ -1,5 +1,5 @@
 import { FormData } from '@/interfaces';
-import { emailRegex, errorMessages, passwordRegex } from './const';
+import { emailRegex, errorMessages, passwordRegex } from '../const';
 
 export function validateUserData(data: FormData) {
   const emailValidated = emailRegex.test(data.email);

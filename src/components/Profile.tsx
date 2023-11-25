@@ -1,6 +1,6 @@
 import { Logout, User } from '@/commons/icons';
 import { useUser } from '@/context';
-import { PROFILE } from '@/helpers/const';
+import { PROFILE } from '@/util/const';
 import { useOpenModal } from '@/hooks';
 import { logoutUser } from '@/services';
 import s from '@/styles/profile.module.css';

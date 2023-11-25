@@ -1,6 +1,7 @@
 import { DashboardLayout, PageLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import Head from 'next/head';
+import { Fragment } from 'react';
 
 const Reportes = () => {
   return (
@@ -20,14 +21,17 @@ const Reportes = () => {
               { id: 'head5', name: 'head 5' },
               { id: 'head6', name: 'head 6' },
             ]}
-            data={[
-              [1, 2, 3, 4, 5, 6],
-              [1, 2, 3, 4, 5, 6],
-              [1, 2, 3, 4, 5, 6],
-              [1, 2, 3, 4, 5, 6],
-              [1, 2, 3, 4, 5, 6],
-              [1, 2, 3, 4, 5, 6],
-            ]}
+            data={[]}
+            row={(item, i) => (
+              <Fragment key={i}>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+                <td>{item.role}</td>
+                <td>
+                  <p>Eliminar</p>
+                </td>
+              </Fragment>
+            )}
           />
         </PageLayout>
       </DashboardLayout>
