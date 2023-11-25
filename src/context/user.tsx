@@ -1,27 +1,30 @@
+import { auth } from '@/config/firebase';
 import { User, UserContext } from '@/interfaces';
-import React, { FC, PropsWithChildren, createContext, useContext, useState } from 'react';
+import { getUser } from '@/services';
+import { onAuthStateChanged } from 'firebase/auth';
+import { FC, PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
 
 const INITIAL_STATE: UserContext = {
   user: null,
-  isLogin: false,
-  login: () => null,
 };
 
 const userContext = createContext<UserContext>(INITIAL_STATE);
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLogin, setIsLogin] = useState(false);
 
-  const login = (user: User | null) => {
-    setUser(user);
-    setIsLogin(true);
-  };
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, async (user) => {
+      const userData = await getUser(user?.uid);
+
+      setUser(userData as User);
+    });
+
+    return () => unSubscribe();
+  }, []);
 
   const value: UserContext = {
     user,
-    isLogin,
-    login,
   };
 
   return <userContext.Provider value={value}>{children}</userContext.Provider>;

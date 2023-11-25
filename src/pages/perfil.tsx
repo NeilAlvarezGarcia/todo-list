@@ -3,8 +3,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import s from '@/styles/profile.module.css';
+import { useUser } from '@/context';
 
 const Perfil = () => {
+  const { user } = useUser();
+
   return (
     <>
       <Head>
@@ -26,17 +29,17 @@ const Perfil = () => {
           <div className={s.userDetails}>
             <div className={s.group}>
               <h4>Nombre</h4>
-              <p>Admin</p>
+              <p>{user?.name}</p>
             </div>
 
             <div className={s.group}>
               <h4>Correo electrónico</h4>
-              <p>user@gmail.com</p>
+              <p>{user?.email}</p>
             </div>
 
             <div className={s.group}>
               <h4>Role</h4>
-              <p>Admin</p>
+              <p>{user?.role}</p>
             </div>
           </div>
         </section>

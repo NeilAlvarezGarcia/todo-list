@@ -3,11 +3,10 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import formStyles from '@/styles/forms.module.css';
 import loginStyles from '@/styles/login.module.css';
 import { FormData } from '@/interfaces';
-import { validateUser } from '@/helpers';
-import { useRouter } from 'next/router';
-import { DASHBOARD } from '@/helpers/const';
+import { errorMessages } from '@/helpers/const';
 import Head from 'next/head';
-import { useUser } from '@/context';
+import { validateUserData } from '@/helpers';
+import { loginUser } from '@/services';
 
 const INITIAL_STATE: FormData = {
   email: '',
@@ -15,10 +14,9 @@ const INITIAL_STATE: FormData = {
 };
 
 const Login = () => {
-  const { push } = useRouter();
-  const { login } = useUser();
-
   const [formData, setFormData] = useState<FormData>(INITIAL_STATE);
+  const [errorLogin, setErrorLogin] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,16 +27,25 @@ const Login = () => {
     }));
   };
 
+  const toggleLoader = () => setLoading((prevState) => !prevState);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    push(DASHBOARD);
+    const infoValidated = validateUserData(formData);
 
-    // const infoValidated = await validateUser(formData);
+    if (infoValidated) return setErrorLogin(infoValidated);
 
-    // if (infoValidated?.isValidated) {
-    //   login(infoValidated.user);
-    // }
+    toggleLoader();
+    setErrorLogin('');
+
+    try {
+      await loginUser(formData);
+    } catch (error) {
+      setErrorLogin(errorMessages.invalidCredentials);
+    } finally {
+      toggleLoader();
+    }
   };
 
   return (
@@ -68,7 +75,11 @@ const Login = () => {
             type='password'
           />
 
-          <button type='submit'>Ingresar</button>
+          <button type='submit'>{loading ? 'Ingresando...' : 'Ingresar'}</button>
+
+          <p className={`${loginStyles.textError} ${Boolean(errorLogin) && loginStyles.active}`}>
+            {errorLogin}
+          </p>
         </form>
       </main>
     </>

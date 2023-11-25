@@ -3,7 +3,8 @@ export type UserRol = 'administrator' | 'employee';
 export interface User {
   email: string;
   password: string;
-  rol: UserRol;
+  role: UserRol;
+  name: string;
 }
 
 export interface FormData {
@@ -13,6 +14,4 @@ export interface FormData {
 
 export interface UserContext {
   user: User | null;
-  isLogin: boolean;
-  login: (user: User | null) => void;
 }
