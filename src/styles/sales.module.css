@@ -1,0 +1,21 @@
+.wapper {
+  display: flex;
+  flex: 1;
+  gap: 3rem;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  gap: 2rem;
+}
+.topSide {
+  flex: 2;
+  display: flex;
+}
+
+.bottomSide {
+  flex: 5;
+  display: flex;
+}

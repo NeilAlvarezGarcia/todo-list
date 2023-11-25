@@ -1,17 +1,25 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import s from '@/styles/dashboard.module.css';
 import { SIDEBAR } from '@/helpers/const';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Chevron } from '@/commons/icons';
+import { Chevron, Menu } from '@/commons/icons';
+import { useUI } from '@/context';
 
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
+  const { sidebarOpen, toggleSideBar } = useUI();
 
   return (
     <main className={s.main}>
-      <aside className={s.sidebar}>
-        <h1 className={s.title}>Store Line</h1>
+      <aside className={`${s.sidebar} ${sidebarOpen && s.open}`}>
+        <div className={s.sidebarHeader}>
+          {sidebarOpen && <h1>Store Line</h1>}
+
+          <button onClick={toggleSideBar}>
+            <Menu />
+          </button>
+        </div>
 
         <ul className={s.list}>
           {SIDEBAR.map(({ name, href, icon }, i) => {
@@ -19,14 +27,20 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
 
             return (
               <li key={i}>
-                <Link href={href} className={`${s.link} ${isActive && s.linkActive}`}>
+                <Link
+                  href={href}
+                  className={`${s.link} ${isActive && s.linkActive} ${sidebarOpen && s.open}`}>
                   <span className={s.linkSpan}>
                     {icon}
 
-                    {name}
+                    {sidebarOpen && name}
                   </span>
 
-                  {isActive && <Chevron />}
+                  {isActive && sidebarOpen && (
+                    <span className={`${s.chevron} ${isActive && s.active}`}>
+                      <Chevron />
+                    </span>
+                  )}
                 </Link>
               </li>
             );
