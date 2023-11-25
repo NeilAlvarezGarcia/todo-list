@@ -1,6 +1,6 @@
 import { DashboardLayout, PageLayout } from '@/commons/layouts';
-import { Table } from '@/components/Table';
-import { AddButton } from '@/components/buttons/AddButton';
+import { Table } from '@/commons/Table';
+import { AddButton } from '@/components/AddButton';
 import Head from 'next/head';
 
 const Inventario = () => {

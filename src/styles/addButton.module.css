@@ -1,6 +1,7 @@
 .addButton {
   padding: 1.5rem 2rem;
   margin-bottom: 3rem;
+  width: fit-content;
 }
 
 .modal {
@@ -37,7 +38,6 @@
 }
 
 .closeButton {
-  background-color: red;
   margin-left: auto;
   border-radius: 50%;
   padding: 0;

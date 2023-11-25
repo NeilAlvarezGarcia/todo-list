@@ -99,13 +99,3 @@
   background-color: #2f2f43;
   padding: 1.5rem 3rem;
 }
-
-.profile {
-  display: flex;
-  align-items: center;
-  padding-left: 2rem;
-  cursor: pointer;
-  color: #fff;
-  border-left: solid thin #fff;
-  height: 100%;
-}

@@ -1,4 +1,4 @@
-import { Input } from '@/components/forms';
+import { Input } from '@/commons/forms';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import formStyles from '@/styles/forms.module.css';
 import loginStyles from '@/styles/login.module.css';
@@ -32,12 +32,13 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const infoValidated = await validateUser(formData);
+    push(DASHBOARD);
 
-    if (infoValidated?.isValidated) {
-      login(infoValidated.user);
-      push(DASHBOARD);
-    }
+    // const infoValidated = await validateUser(formData);
+
+    // if (infoValidated?.isValidated) {
+    //   login(infoValidated.user);
+    // }
   };
 
   return (

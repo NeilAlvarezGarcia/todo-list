@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Chevron, Menu } from '@/commons/icons';
 import { useUI } from '@/context';
+import { Profile } from '@/components';
 
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
@@ -50,9 +51,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
 
       <div className={s.leftSide}>
         <header className={s.header}>
-          <div className={s.profile}>
-            <p>user@gmail.com</p>
-          </div>
+          <Profile />
         </header>
 
         <div className={s.page}>{children}</div>

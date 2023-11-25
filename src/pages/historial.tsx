@@ -1,5 +1,5 @@
 import { DashboardLayout, PageLayout } from '@/commons/layouts';
-import { Table } from '@/components/Table';
+import { Table } from '@/commons/Table';
 import Head from 'next/head';
 
 const Ventas = () => {

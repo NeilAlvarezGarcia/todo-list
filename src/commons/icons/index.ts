@@ -9,3 +9,5 @@ export * from './Dollar';
 export * from './Receipt';
 export * from './Clock';
 export * from './Menu';
+export * from './User';
+export * from './Logout';

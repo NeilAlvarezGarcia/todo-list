@@ -2,6 +2,12 @@ import { BookContent, Chart, Clock, Gear, Home, PurchaseTag } from '@/commons/ic
 
 const LOGIN = '/login';
 const DASHBOARD = '/';
+const ADMINISTRATION = '/administracion';
+const INVENTORY = '/inventario';
+const SALES = '/ventas';
+const HISTORY = '/historial';
+const REPORTS = '/reportes';
+const PROFILE = '/perfil';
 
 const SIDEBAR = [
   {
@@ -11,29 +17,29 @@ const SIDEBAR = [
   },
   {
     name: 'Administración',
-    href: '/administracion',
+    href: ADMINISTRATION,
     icon: <Gear />,
   },
   {
     name: 'Inventario',
-    href: '/inventario',
+    href: INVENTORY,
     icon: <BookContent />,
   },
   {
     name: 'Venta de productos',
-    href: '/ventas',
+    href: SALES,
     icon: <PurchaseTag />,
   },
   {
     name: 'Historial de ventas',
-    href: '/historial',
+    href: HISTORY,
     icon: <Clock />,
   },
   {
     name: 'Reportes',
-    href: '/reportes',
+    href: REPORTS,
     icon: <Chart />,
   },
 ];
 
-export { LOGIN, DASHBOARD, SIDEBAR };
+export { LOGIN, DASHBOARD, ADMINISTRATION, INVENTORY, SALES, HISTORY, REPORTS, PROFILE, SIDEBAR };

@@ -1,18 +1,16 @@
-import s from '@/styles/buttons.module.css';
-import { FC, PropsWithChildren, useState } from 'react';
+import { useOpenModal } from '@/hooks';
+import s from '@/styles/addButton.module.css';
+import { FC, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren & {
   textBtn: string;
 };
 
 export const AddButton: FC<Props> = ({ textBtn, children }) => {
-  const [addOpen, setAddOpen] = useState(false);
-
-  const openModal = () => setAddOpen(true);
-  const closeModal = () => setAddOpen(false);
+  const { addOpen, closeModal, openModal } = useOpenModal();
 
   return (
-    <div>
+    <>
       <button className={s.addButton} onClick={openModal}>
         {textBtn}
       </button>
@@ -26,6 +24,6 @@ export const AddButton: FC<Props> = ({ textBtn, children }) => {
           {children}
         </div>
       </section>
-    </div>
+    </>
   );
 };
