@@ -9,12 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chat.js": "^1.0.2",
     "firebase": "^10.6.0",
     "next": "14.0.3",
     "randomstring": "^1.3.0",
     "react": "^18",
-    "react-dom": "^18",
-    "recharts": "^2.10.1"
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/node": "^20",
