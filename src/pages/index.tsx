@@ -13,7 +13,7 @@ const Home = () => {
       <DashboardLayout>
         <div className={s.wrapper}>
           <ul className={s.salesIndicators}>
-            {salesData.map(({ title, value, color, icon }) => (
+            {salesData?.map(({ title, value, color, icon }) => (
               <li key={title} className={s.listItem} style={{ borderLeft: `thick solid ${color}` }}>
                 <div className={s.data}>
                   <h3 className={s.title} style={{ color }}>

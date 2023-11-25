@@ -112,4 +112,5 @@
   border-radius: 0.5rem;
   border: thin solid #bbb;
   color: #181828;
+  text-transform: capitalize;
 }

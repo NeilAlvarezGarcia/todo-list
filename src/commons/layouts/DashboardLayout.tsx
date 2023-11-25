@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren, useState } from 'react';
 import s from '@/styles/dashboard.module.css';
-import { SIDEBAR } from '@/helpers/const';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Chevron, Menu } from '@/commons/icons';
@@ -9,7 +8,7 @@ import { Profile } from '@/components';
 
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
-  const { sidebarOpen, toggleSideBar } = useUI();
+  const { sidebarOpen, toggleSideBar, sidebar } = useUI();
 
   return (
     <main className={s.main}>
@@ -23,7 +22,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
         </div>
 
         <ul className={s.list}>
-          {SIDEBAR.map(({ name, href, icon }, i) => {
+          {sidebar.map(({ name, href, icon }, i) => {
             const isActive = href === pathname;
 
             return (
