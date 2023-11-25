@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import s from '@/styles/dashboard.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
