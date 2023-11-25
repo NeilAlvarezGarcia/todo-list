@@ -54,3 +54,13 @@
   opacity: 1;
   transform: scale(1);
 }
+
+.deleteBtn {
+  background-color: #eb1c09;
+  padding: 1rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

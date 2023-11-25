@@ -9,6 +9,7 @@ import { ADMIN_ROL, EMPLYEE_ROL, TABLE_USERS_HEADER, revalidateInterval } from '
 import { Input } from '@/commons/forms';
 import s from '@/styles/administration.module.css';
 import { validateUserData } from '@/util/helpers';
+import { TrashCan } from '@/commons/icons';
 
 type Props = {
   data: User[];
@@ -127,7 +128,9 @@ const Administracion: FC<Props> = ({ data }) => {
                 <td>{item.email}</td>
                 <td>{item.role}</td>
                 <td>
-                  <p>Eliminar</p>
+                  <div className={s.deleteBtn}>
+                    <TrashCan />
+                  </div>
                 </td>
               </Fragment>
             )}
