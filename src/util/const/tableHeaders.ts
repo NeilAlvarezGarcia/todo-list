@@ -5,4 +5,13 @@ const TABLE_USERS_HEADER = [
   { id: 'actions', name: 'Acciones' },
 ];
 
-export { TABLE_USERS_HEADER };
+const TABLE_PRODUCTS_HEADER = [
+  { id: 'id', name: 'Código' },
+  { id: 'name', name: 'Nombre' },
+  { id: 'stock', name: 'Cantidad' },
+  { id: 'price', name: 'Precio por unidad' },
+  { id: 'state', name: 'Estado' },
+  { id: 'actions', name: 'Acciones' },
+];
+
+export { TABLE_USERS_HEADER, TABLE_PRODUCTS_HEADER };

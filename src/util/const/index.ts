@@ -5,3 +5,4 @@ export * from './regex';
 export * from './auth';
 export * from './dbCollections';
 export * from './tableHeaders';
+export * from './product';

@@ -1,10 +1,26 @@
 import { DashboardLayout, PageLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
-import { AddButton } from '@/components/AddButton';
+import { Product } from '@/interfaces';
+import { getProducts } from '@/services';
+import { revalidateInterval, TABLE_PRODUCTS_HEADER } from '@/util/const';
 import Head from 'next/head';
-import { Fragment } from 'react';
+import { FC, useState } from 'react';
 
-const Inventario = () => {
+import { AddProduct, ProductTableRow } from '@/components/inventario';
+
+type Props = {
+  data: Product[];
+};
+
+const Inventario: FC<Props> = ({ data }) => {
+  const [prodcucts, setProducts] = useState(data);
+
+  const refreshData = async () => {
+    const data = await getProducts();
+
+    setProducts(data);
+  };
+
   return (
     <>
       <Head>
@@ -13,35 +29,28 @@ const Inventario = () => {
 
       <DashboardLayout>
         <PageLayout title='Lista de productos'>
-          <AddButton textBtn='Nuevo producto'>
-            <p>this is suppouse to be a form to add products</p>
-          </AddButton>
+          <AddProduct refresh={refreshData} />
 
           <Table
-            headers={[
-              { id: 'head1', name: 'head 1' },
-              { id: 'head2', name: 'head 2' },
-              { id: 'head3', name: 'head 3' },
-              { id: 'head4', name: 'head 4' },
-              { id: 'head5', name: 'head 5' },
-              { id: 'head6', name: 'head 6' },
-            ]}
-            data={[]}
-            row={(item, i) => (
-              <Fragment key={i}>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.role}</td>
-                <td>
-                  <p>Eliminar</p>
-                </td>
-              </Fragment>
-            )}
+            headers={TABLE_PRODUCTS_HEADER}
+            data={prodcucts as unknown as Record<string, string | number>[]}
+            row={(item, i) => <ProductTableRow key={i} product={item as unknown as Product} />}
           />
         </PageLayout>
       </DashboardLayout>
     </>
   );
 };
+
+export async function getStaticProps() {
+  const data = await getProducts();
+
+  return {
+    props: {
+      data,
+    },
+    revalidate: revalidateInterval,
+  };
+}
 
 export default Inventario;

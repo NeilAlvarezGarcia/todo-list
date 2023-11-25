@@ -29,6 +29,12 @@ export const Table: FC<Props> = ({ headers = [], data = [], row = () => null }) 
           {data.map((item, i) => (
             <tr key={item.id}>{row(item, i)}</tr>
           ))}
+
+          {!Boolean(data.length) && (
+            <div className={s.empty}>
+              <h2>No hay ningún resultado</h2>
+            </div>
+          )}
         </tbody>
       </table>
 
