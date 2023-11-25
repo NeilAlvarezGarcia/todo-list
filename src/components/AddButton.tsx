@@ -1,9 +1,10 @@
 import { useOpenModal } from '@/hooks';
 import s from '@/styles/addButton.module.css';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactNode } from 'react';
 
-type Props = PropsWithChildren & {
+type Props = {
   textBtn: string;
+  children: (close: VoidFunction) => ReactNode;
 };
 
 export const AddButton: FC<Props> = ({ textBtn, children }) => {
@@ -21,7 +22,7 @@ export const AddButton: FC<Props> = ({ textBtn, children }) => {
             x
           </button>
 
-          {children}
+          {children(closeModal)}
         </div>
       </section>
     </>

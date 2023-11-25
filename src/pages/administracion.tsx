@@ -2,24 +2,67 @@ import { DashboardLayout, PageLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import Head from 'next/head';
 import { AddButton } from '@/components/AddButton';
-import { getUsers } from '@/services';
-import { User } from '@/interfaces';
-import { FC, FormEvent, Fragment } from 'react';
+import { createUser, getUsers } from '@/services';
+import { FormData, User } from '@/interfaces';
+import { ChangeEvent, FC, FormEvent, Fragment, useState } from 'react';
 import { ADMIN_ROL, EMPLYEE_ROL, TABLE_USERS_HEADER, revalidateInterval } from '@/util/const';
 import { Input } from '@/commons/forms';
 import s from '@/styles/administration.module.css';
-import { useRouter } from 'next/navigation';
+import { validateUserData } from '@/util/helpers';
 
 type Props = {
   data: User[];
 };
 
-const Administracion: FC<Props> = ({ data }) => {
-  const { refresh } = useRouter();
+const INITIAL_STATE: FormData = {
+  email: '',
+  password: '',
+  name: '',
+  role: ADMIN_ROL,
+};
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+const Administracion: FC<Props> = ({ data }) => {
+  const [users, setUsers] = useState(data);
+  const [formData, setFormData] = useState<FormData>(INITIAL_STATE);
+  const [errorLogin, setErrorLogin] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const toggleLoader = () => setLoading((prevState) => !prevState);
+
+  const handleSubmit = async (close: VoidFunction, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    refresh();
+
+    const infoValidated = validateUserData(formData);
+
+    if (infoValidated) return setErrorLogin(infoValidated);
+
+    toggleLoader();
+    setErrorLogin('');
+
+    try {
+      await createUser(formData);
+      await refreshData();
+    } catch (error) {
+      // setErrorLogin(errorMessages.invalidCredentials);
+    } finally {
+      toggleLoader();
+      close();
+    }
+  };
+
+  const refreshData = async () => {
+    const data = await getUsers();
+
+    setUsers(data);
   };
 
   return (
@@ -31,31 +74,53 @@ const Administracion: FC<Props> = ({ data }) => {
       <DashboardLayout>
         <PageLayout title='Lista de usuarios'>
           <AddButton textBtn='Nuevo usuario'>
-            <form className={s.form} onSubmit={handleSubmit}>
-              <div className={s.wrapper}>
-                <h3>Añadir nuevo usario</h3>
+            {(close) => (
+              <form className={s.form} onSubmit={(e) => handleSubmit(close, e)}>
+                <div className={s.wrapper}>
+                  <h3>Añadir nuevo usario</h3>
 
-                <Input label='Nombre' name='name' />
-                <Input label='Correo electrónico' name='email' />
-                <Input label='Contraseña' name='password' type='password' />
+                  <Input
+                    label='Nombre'
+                    name='name'
+                    value={formData.name}
+                    onValueChange={handleChange}
+                  />
+                  <Input
+                    label='Correo electrónico'
+                    name='email'
+                    value={formData.email}
+                    onValueChange={handleChange}
+                  />
+                  <Input
+                    label='Contraseña'
+                    name='password'
+                    type='password'
+                    value={formData.password}
+                    onValueChange={handleChange}
+                  />
 
-                <div className={s.select}>
-                  <label className={s.label}>Rol</label>
+                  <div className={s.select}>
+                    <label className={s.label}>Rol</label>
 
-                  <select name='role'>
-                    <option value={ADMIN_ROL}>{ADMIN_ROL}</option>
-                    <option value={EMPLYEE_ROL}>{EMPLYEE_ROL}</option>
-                  </select>
+                    <select name='role' value={formData.role} onChange={handleChange}>
+                      <option value={ADMIN_ROL}>{ADMIN_ROL}</option>
+                      <option value={EMPLYEE_ROL}>{EMPLYEE_ROL}</option>
+                    </select>
+                  </div>
+
+                  <p className={`${s.textError} ${Boolean(errorLogin) && s.active}`}>
+                    {errorLogin}
+                  </p>
                 </div>
-              </div>
 
-              <button>Agregar usuario</button>
-            </form>
+                <button>{loading ? 'Agregando ' : 'Agregar '}usuario</button>
+              </form>
+            )}
           </AddButton>
 
           <Table
             headers={TABLE_USERS_HEADER}
-            data={data as unknown as Record<string, string | number>[]}
+            data={users as unknown as Record<string, string | number>[]}
             row={(item, i) => (
               <Fragment key={i}>
                 <td>{item.name}</td>

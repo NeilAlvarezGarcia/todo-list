@@ -22,10 +22,35 @@
   border: var(--border);
   padding: 1.2rem 1.6rem;
   border-radius: 1.8rem;
+  cursor: pointer;
 }
 
 .select label {
   font-size: 1.4rem;
+  cursor: pointer;
   color: #ffffff99;
   font-weight: 700;
+}
+
+.select select {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  text-transform: capitalize;
+}
+
+.textError {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  color: #eb1c09;
+  opacity: 0;
+  transform: scale(0);
+  transition: all ease 0.3s;
+}
+.textError.active {
+  opacity: 1;
+  transform: scale(1);
 }

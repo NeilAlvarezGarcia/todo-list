@@ -1,14 +1,11 @@
 import { auth } from '@/config/firebase';
-import { FormData } from '@/interfaces';
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
+import { FormData, User } from '@/interfaces';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { addUser } from '.';
 
-async function createUser({ email, password }: FormData) {
-  return await createUserWithEmailAndPassword(auth, email, password);
+async function createUser({ email, password, ...rest }: FormData) {
+  const res = await createUserWithEmailAndPassword(auth, email, password);
+  await addUser({ email, uid: res.user.uid, ...rest } as User);
 }
 
 async function loginUser({ email, password }: FormData) {

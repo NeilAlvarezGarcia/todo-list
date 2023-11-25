@@ -23,10 +23,10 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1rem;
   background-color: #fff;
   height: 70%;
-  width: 30%;
+  width: min(60rem, 90%);
   overflow: hidden;
   padding: 2.5rem;
   border-radius: 2rem;
@@ -42,7 +42,9 @@
   border-radius: 50%;
   padding: 0;
   width: 3.5rem;
+  min-width: 3.5rem;
   height: 3.5rem;
+  min-height: 3.5rem;
   display: flex;
   justify-content: center;
   align-items: center;

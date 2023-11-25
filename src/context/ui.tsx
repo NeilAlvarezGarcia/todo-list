@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import { useUser } from './user';
 import { SideBar, UIContext } from '@/interfaces';
-import { useRouter } from 'next/navigation';
 
 const INITIAL_STATE: UIContext = {
   sidebarOpen: false,
@@ -21,7 +20,6 @@ const uiContext = createContext(INITIAL_STATE);
 
 export const UiProvider: FC<PropsWithChildren> = ({ children }) => {
   const { user } = useUser();
-  const { push } = useRouter();
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebar, setSidebar] = useState<SideBar[] | []>([]);
@@ -41,16 +39,6 @@ export const UiProvider: FC<PropsWithChildren> = ({ children }) => {
 
     setSidebar(userSidebar);
   }, [user]);
-
-  useEffect(() => {
-    if (!sidebar.length) return;
-
-    const href = sidebar[0]?.href;
-
-    push(href);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sidebar]);
 
   const value = {
     sidebarOpen,

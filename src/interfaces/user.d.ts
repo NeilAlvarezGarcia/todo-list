@@ -10,6 +10,8 @@ export interface User {
 export interface FormData {
   email: string;
   password: string;
+  name?: string;
+  role?: UserRol;
 }
 
 export interface UserContext {
