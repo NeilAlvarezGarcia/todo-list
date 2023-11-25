@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/commons/layouts';
+import { DashboardLayout, PageLayout } from '@/commons/layouts';
 import Head from 'next/head';
 
 const Ventas = () => {
@@ -9,7 +9,9 @@ const Ventas = () => {
       </Head>
 
       <DashboardLayout>
-        <p>Ventas</p>
+        <PageLayout title='Lista de productos'>
+          <p>Ventas</p>
+        </PageLayout>
       </DashboardLayout>
     </>
   );

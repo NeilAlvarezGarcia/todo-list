@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import s from '@/styles/dashboard.module.css';
 import { SIDEBAR } from '@/helpers/const';
 import Link from 'next/link';
@@ -11,7 +11,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <main className={s.main}>
       <aside className={s.sidebar}>
-        <h1>Store Line</h1>
+        <h1 className={s.title}>Store Line</h1>
 
         <ul className={s.list}>
           {SIDEBAR.map(({ name, href, icon }, i) => {

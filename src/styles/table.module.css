@@ -1,0 +1,83 @@
+.tableWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: hidden;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.tableHead {
+  display: flex;
+  background-color: #ddd;
+}
+
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.tableHead tr,
+.tableBody tr {
+  flex: 1;
+  max-height: 7.5rem;
+  display: flex;
+  border-bottom: thin solid #bbb;
+  justify-content: space-between;
+}
+.tableHead tr th,
+.tableBody tr td {
+  flex: 1;
+  display: flex;
+  padding: 2rem;
+  align-items: center;
+}
+
+.pagination {
+  display: flex;
+  align-self: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 3rem;
+  gap: 1.6rem;
+  color: #b1b1b1;
+}
+
+.dataPerPage {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.currentPage {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.chevronInverse {
+  display: inline-block;
+  transform: rotate(180deg);
+  cursor: pointer;
+}
+
+.arrowActions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.chevron {
+  transform: translateY(0.4rem);
+  cursor: pointer;
+}

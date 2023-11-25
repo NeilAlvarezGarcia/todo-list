@@ -64,6 +64,7 @@ const Login = () => {
             name='password'
             value={formData.password}
             onValueChange={handleChange}
+            type='password'
           />
 
           <button type='submit'>Ingresar</button>

@@ -4,3 +4,6 @@ export * from './Gear';
 export * from './PurchaseTag';
 export * from './BookContent';
 export * from './Chart';
+export * from './Basket';
+export * from './Dollar';
+export * from './Receipt';

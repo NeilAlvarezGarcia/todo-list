@@ -1,0 +1,22 @@
+.root {
+  flex: 1;
+  border: solid thin #ddd;
+  border-radius: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.title {
+  background-color: #2f2f43;
+  padding: 2rem;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.content {
+  padding: 3rem;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
