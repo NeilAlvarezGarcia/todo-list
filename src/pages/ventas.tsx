@@ -1,22 +1,23 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import Head from 'next/head';
 import s from '@/styles/sales.module.css';
-import tableStyles from '@/styles/table.module.css';
-import { addPurchase, getProducts } from '@/services';
+import { addPurchase, getProducts, updateProductsStock } from '@/services';
 import { TABLE_PRODUCTS_PURCHASE_HEADER, activeProduct, revalidateInterval } from '@/utils/const';
 import { Product, Purchase } from '@/interfaces';
-import { ChangeEvent, FC, FormEvent, Fragment, useMemo, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useMemo, useState } from 'react';
 import { Table, tableDataRecord } from '@/commons/Table';
-import { formatCurrency, generateRandomId, validateFormData } from '@/utils/helpers';
+import { generateRandomId, validateFormData } from '@/utils/helpers';
 import { AutoCompleteSelect } from '@/commons/forms';
-import { TrashCan } from '@/commons/icons';
 import moment from 'moment';
+import { ClientInfo, PurchaseDetail } from '@/components/ventas';
+import { ProductPurchaseTableRow } from '@/components/ventas/ProductPurchaseTableRow';
 
 type Props = {
   products: Product[];
 };
 
-type ProductsSelected = (Product & { quantity: number })[];
+export type ProductSelected = Product & { quantity: number };
+type ProductsSelected = ProductSelected[];
 
 const INITIAL_PRODUCT_STATE = { label: '', value: '', quantity: 0 };
 const INITIAL_CLIENT_STATE = {
@@ -65,7 +66,7 @@ const Ventas: FC<Props> = ({ products }) => {
     const productFound = products.find((item) => item.id === product.value);
     const quantity = Number(product.quantity);
 
-    if (!productFound || !quantity) return;
+    if (!productFound || quantity < 1) return;
 
     if (productFound.stock < quantity)
       return setErrorStock('El stock del producto es menor a la cantidad');
@@ -90,20 +91,20 @@ const Ventas: FC<Props> = ({ products }) => {
 
     toggleLoader();
     try {
-      const currentTime = moment().valueOf();
-      const id = generateRandomId();
       const products = productsSelected.map((item) => ({ id: item.id, quantity: item.quantity }));
 
       const purchase: Purchase = {
-        createdAt: currentTime,
-        purchaseId: id,
+        createdAt: moment().valueOf(),
+        purchaseId: generateRandomId(),
         ...clientData,
         products,
         total,
         subtotal: subtotalPurchase,
         ivaAmount,
       };
+
       await addPurchase(purchase);
+      await updateProductsStock(productsSelected);
     } catch (error) {
       setError('');
     } finally {
@@ -123,31 +124,7 @@ const Ventas: FC<Props> = ({ products }) => {
         <form className={s.wapper} onSubmit={handleSubmit}>
           <section className={s.leftSide}>
             <div className={s.topSide}>
-              <SectionLayout title='Datos del cliente'>
-                <div className={s.topContainer}>
-                  <div>
-                    <label htmlFor='documentClientNumber'>Nro. Documento</label>
-                    <input
-                      type='text'
-                      name='documentClientNumber'
-                      id='documentClientNumber'
-                      value={clientData.documentClientNumber}
-                      onChange={handleClientDataChange}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor='clientName'>Nombre</label>
-                    <input
-                      type='text'
-                      name='clientName'
-                      id='clientName'
-                      value={clientData.clientName}
-                      onChange={handleClientDataChange}
-                    />
-                  </div>
-                </div>
-              </SectionLayout>
+              <ClientInfo clientData={clientData} handleClientDataChange={handleClientDataChange} />
             </div>
 
             <div className={s.bottomSide}>
@@ -181,32 +158,19 @@ const Ventas: FC<Props> = ({ products }) => {
                       agregar
                     </button>
                   </div>
+
                   <p className={s.error}>{errorStock}</p>
 
                   <Table
                     headers={TABLE_PRODUCTS_PURCHASE_HEADER}
                     data={productsSelected as unknown as tableDataRecord[]}
-                    row={(product, i) => {
-                      const productPrice = Number(product.price);
-                      const total = productPrice * Number(product.quantity);
-
-                      return (
-                        <Fragment key={product.id}>
-                          <td>
-                            <button
-                              type='button'
-                              className={tableStyles.deleteAction}
-                              onClick={() => removeProduct(product.id as string)}>
-                              <TrashCan />
-                            </button>
-                          </td>
-                          <td>{product.name}</td>
-                          <td>{product.quantity}</td>
-                          <td>{formatCurrency(productPrice)}</td>
-                          <td>{formatCurrency(total)}</td>
-                        </Fragment>
-                      );
-                    }}
+                    row={(product) => (
+                      <ProductPurchaseTableRow
+                        key={product.id}
+                        product={product as unknown as ProductSelected}
+                        removeProduct={removeProduct}
+                      />
+                    )}
                     emptyText='No hay productos agregados'
                     hasPagination={false}
                   />
@@ -215,31 +179,13 @@ const Ventas: FC<Props> = ({ products }) => {
             </div>
           </section>
 
-          <SectionLayout title='Detalle de la compra'>
-            <div className={s.rightSide}>
-              <div className={s.groupDetail}>
-                <h4>Sub total</h4>
-
-                <p>{formatCurrency(subtotalPurchase)}</p>
-              </div>
-
-              <div className={s.groupDetail}>
-                <h4>IGV (18%)</h4>
-
-                <p>{formatCurrency(ivaAmount)}</p>
-              </div>
-
-              <div className={s.groupDetail}>
-                <h4>Total</h4>
-
-                <p>{formatCurrency(total)}</p>
-              </div>
-
-              <button>{loading ? 'Generando venta...' : 'Terminar venta'}</button>
-
-              <p className={s.error}>{error}</p>
-            </div>
-          </SectionLayout>
+          <PurchaseDetail
+            error={error}
+            ivaAmount={ivaAmount}
+            loading={loading}
+            subtotalPurchase={subtotalPurchase}
+            total={total}
+          />
         </form>
       </DashboardLayout>
     </>
@@ -249,7 +195,9 @@ const Ventas: FC<Props> = ({ products }) => {
 export async function getStaticProps() {
   const data = await getProducts();
 
-  const products = data.filter((product) => product.state === activeProduct);
+  const products = data.filter(
+    (product) => product.state === activeProduct || Boolean(Number(product.stock))
+  );
 
   return {
     props: {

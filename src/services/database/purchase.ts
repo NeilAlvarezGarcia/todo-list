@@ -1,10 +1,9 @@
-import { db } from '@/config/firebase';
-import { Purchase } from '@/interfaces';
+import { Product, Purchase } from '@/interfaces';
 import { PURCHASES } from '@/utils/const';
 import { getDocuments, getDocumentsWhere, setDocument } from '@/utils/helpers';
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import moment from 'moment';
-import { getProduct } from '..';
+import { getProduct, updateProduct } from '..';
+import { ProductSelected } from '@/pages/ventas';
 
 async function addPurchase(data: Purchase) {
   await setDocument(PURCHASES, data.purchaseId, data);
@@ -23,14 +22,24 @@ async function getSevenDaysPurchases() {
 async function getTopSales(purchases: Purchase[]) {
   const topSales: Record<string, number> = {};
 
-  for (let t of purchases) {
-    for (let r of t.products) {
-      const result = (await getProduct(r.id)) ?? {};
-      topSales[result.name] = r.quantity + (topSales[result.name] ?? 0);
+  for (let purchase of purchases) {
+    for (let product of purchase.products) {
+      const result = (await getProduct(product.id)) ?? {};
+      topSales[result.name] = product.quantity + (topSales[result.name] ?? 0);
     }
   }
 
   return topSales;
 }
 
-export { addPurchase, getPurchases, getSevenDaysPurchases, getTopSales };
+async function updateProductsStock(products: ProductSelected[]) {
+  for (let product of products) {
+    const result = (await getProduct(product.id)) as Product;
+    await updateProduct({
+      ...result,
+      stock: Number(result.stock) - product.quantity,
+    });
+  }
+}
+
+export { addPurchase, getPurchases, getSevenDaysPurchases, getTopSales, updateProductsStock };

@@ -112,7 +112,8 @@
   visibility: hidden;
   transition: all ease 0.3s;
   overflow: hidden;
-  height: 24rem;
+  height: fit-content;
+  max-height: 24rem;
 }
 .floatingList.open {
   opacity: 1;
