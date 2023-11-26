@@ -7,6 +7,18 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import 'moment/locale/es';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from 'chart.js';
+
+ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function App({ Component, pageProps }: AppProps) {
   const { push } = useRouter();
