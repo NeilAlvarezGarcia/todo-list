@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import s from '@/styles/Home.module.css';
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
-import { salesData } from '@/mocks';
 import { Bar, Pie } from 'react-chartjs-2';
 
 import {
@@ -14,6 +13,15 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
+import { getPurchases } from '@/services';
+import { Purchase } from '@/interfaces';
+import { FC } from 'react';
+import { populateIndicatorData } from '@/utils/helpers';
+import { Indicators } from '@/components/dashboard';
+
+type Props = {
+  purchases: Purchase[];
+};
 
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -77,7 +85,7 @@ export const data = {
   ],
 };
 
-const Home = () => {
+const Home: FC<Props> = ({ purchases }) => {
   return (
     <>
       <Head>
@@ -86,21 +94,7 @@ const Home = () => {
 
       <DashboardLayout>
         <div className={s.wrapper}>
-          <ul className={s.salesIndicators}>
-            {salesData?.map(({ title, value, color, icon }) => (
-              <li key={title} className={s.listItem} style={{ borderLeft: `thick solid ${color}` }}>
-                <div className={s.data}>
-                  <h3 className={s.title} style={{ color }}>
-                    {title}
-                  </h3>
-
-                  <p className={s.value}>{value}</p>
-                </div>
-
-                {icon}
-              </li>
-            ))}
-          </ul>
+          <Indicators purchases={purchases} />
 
           <div className={s.content}>
             <div className={s.leftSideContent}>
@@ -124,5 +118,15 @@ const Home = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  const purchases = await getPurchases();
+
+  return {
+    props: {
+      purchases,
+    },
+  };
+}
 
 export default Home;
