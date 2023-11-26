@@ -29,9 +29,7 @@ const Home: FC<Props> = ({ purchases, lastSevenDaysPurchases, topSales }) => {
               <LastSevenDaysSale lastSevenDaysPurchases={lastSevenDaysPurchases} />
             </div>
 
-            <div className={s.rightSideContent}>
-              <TopSales topSales={topSales} />
-            </div>
+            <TopSales topSales={topSales} />
           </div>
         </div>
       </DashboardLayout>

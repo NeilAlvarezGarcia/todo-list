@@ -1,5 +1,5 @@
 const USERS = 'users';
 const PRODUCTS = 'products';
-const PURCHASES = 'pruchases';
+const PURCHASES = 'purchases';
 
 export { USERS, PRODUCTS, PURCHASES };

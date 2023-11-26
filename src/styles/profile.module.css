@@ -109,9 +109,20 @@
 .group p {
   background-color: #ddd;
   padding: 1rem;
-  width: 30rem;
   border-radius: 0.5rem;
   border: thin solid #bbb;
   color: #181828;
   text-transform: capitalize;
+}
+
+.detailWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.gridContent {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }

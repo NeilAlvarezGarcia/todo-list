@@ -29,7 +29,7 @@ export const PurchaseDetail: FC<Props> = ({
         </div>
 
         <div className={s.groupDetail}>
-          <h4>IGV (18%)</h4>
+          <h4>IVA (18%)</h4>
 
           <p>{formatCurrency(ivaAmount)}</p>
         </div>

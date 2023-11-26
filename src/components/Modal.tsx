@@ -8,8 +8,8 @@ type Props = PropsWithChildren & {
 
 export const Modal: FC<Props> = ({ open, closeModal, children }) => {
   return (
-    <section className={`${s.modal} ${open && s.active}`}>
-      <div className={s.content}>
+    <section className={`${s.modal} ${open && s.active}`} onClick={closeModal}>
+      <div className={s.content} onClick={(e) => e.stopPropagation()}>
         <button className={s.closeButton} onClick={closeModal}>
           x
         </button>

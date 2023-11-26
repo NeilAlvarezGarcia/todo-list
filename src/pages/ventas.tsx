@@ -95,7 +95,7 @@ const Ventas: FC<Props> = ({ products }) => {
 
       const purchase: Purchase = {
         createdAt: moment().valueOf(),
-        purchaseId: generateRandomId(),
+        purchaseId: generateRandomId(8),
         ...clientData,
         products,
         total,

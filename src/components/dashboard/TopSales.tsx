@@ -14,11 +14,15 @@ export const TopSales: FC<Props> = ({ topSales }) => {
     datasets: [getDataSets(Object.values(topSales) as unknown as (string | number)[])],
   };
 
+  if (!topSales.length) return null;
+
   return (
-    <SectionLayout title='Productos más vendidos'>
-      <div className={s.chartContainer}>
-        <Pie data={data} />
-      </div>
-    </SectionLayout>
+    <div className={s.rightSideContent}>
+      <SectionLayout title='Productos más vendidos'>
+        <div className={s.chartContainer}>
+          <Pie data={data} />
+        </div>
+      </SectionLayout>
+    </div>
   );
 };
