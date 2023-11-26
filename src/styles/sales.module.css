@@ -84,3 +84,10 @@
   height: 5rem;
   padding: 0 2rem;
 }
+
+.error {
+  color: #ff0000;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.6rem;
+}

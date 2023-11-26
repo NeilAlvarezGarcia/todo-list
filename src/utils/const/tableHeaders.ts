@@ -18,7 +18,8 @@ const TABLE_HISTORIES_HEADER = [
   { id: 'date', name: 'Fecha registro' },
   { id: 'idPurchase', name: 'Número venta' },
   { id: 'documentNumber', name: 'Documento cliente' },
-  { id: 'clientName', name: 'NombreCliente' },
+  { id: 'clientName', name: 'Nombre Cliente' },
+  { id: 'iva', name: 'IVA' },
   { id: 'total', name: 'Total' },
 ];
 

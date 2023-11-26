@@ -1,6 +1,6 @@
 import { Product } from '@/interfaces';
 import { addProduct } from '@/services';
-import { activeProducte } from '@/utils/const';
+import { activeProduct } from '@/utils/const';
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { AddButton } from '..';
 import { ProductForm } from './ProductForm';
@@ -17,7 +17,7 @@ const INITIAL_STATE: FormType = {
   name: '',
   stock: 0,
   price: 0,
-  state: activeProducte,
+  state: activeProduct,
 };
 
 export const AddProduct: FC<Props> = ({ refresh }) => {
@@ -38,6 +38,8 @@ export const AddProduct: FC<Props> = ({ refresh }) => {
 
   const handleSubmit = async (close: VoidFunction, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    console.log(formData);
 
     if (!validateFormData(formData)) return setError('Los campos no pueden estar vacios');
 

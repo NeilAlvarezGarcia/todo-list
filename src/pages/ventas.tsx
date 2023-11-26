@@ -2,14 +2,15 @@ import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import Head from 'next/head';
 import s from '@/styles/sales.module.css';
 import tableStyles from '@/styles/table.module.css';
-import { getProducts } from '@/services';
+import { addPurchase, getProducts } from '@/services';
 import { TABLE_PRODUCTS_PURCHASE_HEADER, activeProduct, revalidateInterval } from '@/utils/const';
-import { Product } from '@/interfaces';
-import { ChangeEvent, FC, Fragment, useMemo, useState } from 'react';
+import { Product, Purchase } from '@/interfaces';
+import { ChangeEvent, FC, FormEvent, Fragment, useMemo, useState } from 'react';
 import { Table, tableDataRecord } from '@/commons/Table';
-import { formatCurrency } from '@/utils/helpers';
+import { formatCurrency, generateRandomId, validateFormData } from '@/utils/helpers';
 import { AutoCompleteSelect } from '@/commons/forms';
 import { TrashCan } from '@/commons/icons';
+import moment from 'moment';
 
 type Props = {
   products: Product[];
@@ -27,6 +28,9 @@ const Ventas: FC<Props> = ({ products }) => {
   const [clientData, setClientData] = useState(INITIAL_CLIENT_STATE);
   const [productsSelected, setProductsSelected] = useState<ProductsSelected>([]);
   const [product, setProduct] = useState(INITIAL_PRODUCT_STATE);
+  const [error, setError] = useState('');
+  const [errorStock, setErrorStock] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const subtotalPurchase = useMemo(
     () =>
@@ -59,11 +63,16 @@ const Ventas: FC<Props> = ({ products }) => {
 
   const addProduct = () => {
     const productFound = products.find((item) => item.id === product.value);
+    const quantity = Number(product.quantity);
 
-    if (!productFound || !product.quantity) return;
+    if (!productFound || !quantity) return;
 
-    setProductsSelected((prev) => [...prev, { ...productFound, quantity: product.quantity }]);
+    if (productFound.stock < quantity)
+      return setErrorStock('El stock del producto es menor a la cantidad');
+
+    setProductsSelected((prev) => [...prev, { ...productFound, quantity }]);
     setProduct(INITIAL_PRODUCT_STATE);
+    setErrorStock('');
   };
 
   const removeProduct = (id: string) => {
@@ -71,8 +80,38 @@ const Ventas: FC<Props> = ({ products }) => {
 
     setProductsSelected(productsFiltered);
   };
+  const toggleLoader = () => setLoading((prev) => !prev);
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validateFormData(clientData) || !productsSelected.length)
+      return setError('Debes ingresar los datos del cliente y los productos a vender');
+
+    toggleLoader();
+    try {
+      const currentTime = moment().valueOf();
+      const id = generateRandomId();
+      const products = productsSelected.map((item) => ({ id: item.id, quantity: item.quantity }));
+
+      const purchase: Purchase = {
+        createdAt: currentTime,
+        purchaseId: id,
+        ...clientData,
+        products,
+        total,
+        subtotal: subtotalPurchase,
+        ivaAmount,
+      };
+      await addPurchase(purchase);
+    } catch (error) {
+      setError('');
+    } finally {
+      toggleLoader();
+      setClientData(INITIAL_CLIENT_STATE);
+      setProductsSelected([]);
+    }
+  };
 
   return (
     <>
@@ -81,7 +120,7 @@ const Ventas: FC<Props> = ({ products }) => {
       </Head>
 
       <DashboardLayout>
-        <form className={s.wapper}>
+        <form className={s.wapper} onSubmit={handleSubmit}>
           <section className={s.leftSide}>
             <div className={s.topSide}>
               <SectionLayout title='Datos del cliente'>
@@ -142,6 +181,7 @@ const Ventas: FC<Props> = ({ products }) => {
                       agregar
                     </button>
                   </div>
+                  <p className={s.error}>{errorStock}</p>
 
                   <Table
                     headers={TABLE_PRODUCTS_PURCHASE_HEADER}
@@ -195,7 +235,9 @@ const Ventas: FC<Props> = ({ products }) => {
                 <p>{formatCurrency(total)}</p>
               </div>
 
-              <button>Terminar venta</button>
+              <button>{loading ? 'Generando venta...' : 'Terminar venta'}</button>
+
+              <p className={s.error}>{error}</p>
             </div>
           </SectionLayout>
         </form>

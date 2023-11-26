@@ -1,4 +1,5 @@
 const USERS = 'users';
 const PRODUCTS = 'products';
+const PURCHASES = 'pruchases';
 
-export { USERS, PRODUCTS };
+export { USERS, PRODUCTS, PURCHASES };

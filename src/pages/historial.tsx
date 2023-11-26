@@ -1,10 +1,17 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
-import { Table } from '@/commons/Table';
+import { Table, tableDataRecord } from '@/commons/Table';
+import { PurchaseTableRow } from '@/components/historial';
+import { Purchase } from '@/interfaces';
+import { getPurchases } from '@/services';
 import { TABLE_HISTORIES_HEADER } from '@/utils/const';
 import Head from 'next/head';
-import { Fragment } from 'react';
+import { FC, Fragment } from 'react';
 
-const Ventas = () => {
+type Props = {
+  purchases: Purchase[];
+};
+
+const Ventas: FC<Props> = ({ purchases }) => {
   return (
     <>
       <Head>
@@ -15,16 +22,9 @@ const Ventas = () => {
         <SectionLayout title='Historial de ventas'>
           <Table
             headers={TABLE_HISTORIES_HEADER}
-            data={[]}
-            row={(item, i) => (
-              <Fragment key={i}>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{item.role}</td>
-                <td>
-                  <p>Eliminar</p>
-                </td>
-              </Fragment>
+            data={purchases as unknown as tableDataRecord[]}
+            row={(item) => (
+              <PurchaseTableRow key={item.purchaseId} purchase={item as unknown as Purchase} />
             )}
           />
         </SectionLayout>
@@ -32,5 +32,15 @@ const Ventas = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  const purchases = await getPurchases();
+
+  return {
+    props: {
+      purchases,
+    },
+  };
+}
 
 export default Ventas;

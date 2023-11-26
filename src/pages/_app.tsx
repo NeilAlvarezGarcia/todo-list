@@ -6,6 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import 'moment/locale/es';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { push } = useRouter();
