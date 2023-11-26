@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const Profile = () => {
-  const { addOpen, closeModal, openModal } = useOpenModal();
+  const [profileOptionsOpen, openProfileOptions, closeProfileOptions] = useOpenModal();
   const { user } = useUser();
 
   const logOut = async () => {
@@ -21,13 +21,15 @@ export const Profile = () => {
 
   return (
     <>
-      <div className={s.profile} onClick={openModal}>
+      <div className={s.profile} onClick={openProfileOptions}>
         <p>{user?.email}</p>
 
         <Image src='/profile.png' alt='profile' width={50} height={50} className={s.image} />
       </div>
 
-      <section className={`${s.modal} ${addOpen && s.active}`} onClick={closeModal}>
+      <section
+        className={`${s.modal} ${profileOptionsOpen && s.active}`}
+        onClick={closeProfileOptions}>
         <div className={s.content}>
           <Link href={PROFILE} className={s.link}>
             <User />

@@ -2,7 +2,7 @@ import { Chevron } from '@/commons/icons';
 import s from '@/styles/table.module.css';
 import { FC, ReactNode } from 'react';
 
-type tableDataRecord = Record<string, string | number>;
+export type tableDataRecord = Record<string, string | number>;
 
 type Props = {
   headers: {

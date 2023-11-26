@@ -95,3 +95,43 @@
   justify-content: center;
   align-items: center;
 }
+
+.inputSelect {
+  position: relative;
+}
+.floatingList {
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  z-index: 2;
+  list-style: none;
+  background-color: #fff;
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all ease 0.3s;
+  overflow: hidden;
+  height: min(24rem, fit-content);
+}
+.floatingList.open {
+  opacity: 1;
+  visibility: visible;
+}
+.list {
+  height: 100%;
+  overflow-y: auto;
+}
+.option {
+  padding: 1.5rem 2rem;
+  transition: all ease 0.3s;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: #eee;
+}
+
+.emptyResult {
+  padding: 2rem;
+}

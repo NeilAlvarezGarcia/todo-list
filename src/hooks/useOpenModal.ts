@@ -1,14 +1,10 @@
 import { useState } from 'react';
 
-export const useOpenModal = () => {
-  const [addOpen, setAddOpen] = useState(false);
+export const useOpenModal = (): [boolean, VoidFunction, VoidFunction] => {
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const openModal = () => setAddOpen(true);
-  const closeModal = () => setAddOpen(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
-  return {
-    addOpen,
-    openModal,
-    closeModal,
-  };
+  return [modalOpen, openModal, closeModal];
 };

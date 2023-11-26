@@ -34,6 +34,7 @@
 .bottomContainer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   gap: 3rem;
 }
 .topContainer {
@@ -77,4 +78,9 @@
   border-bottom: thin solid #ccc;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
+}
+
+.addBtn {
+  height: 5rem;
+  padding: 0 2rem;
 }

@@ -6,9 +6,10 @@ import s from '@/styles/table.module.css';
 
 type Props = {
   product: Product;
+  openDeleteProduct: (productId: string) => void;
 };
 
-export const ProductTableRow: FC<Props> = ({ product }) => {
+export const ProductTableRow: FC<Props> = ({ product, openDeleteProduct }) => {
   return (
     <>
       <td>{product.id}</td>
@@ -27,7 +28,7 @@ export const ProductTableRow: FC<Props> = ({ product }) => {
             <Edit />
           </button>
 
-          <button className={s.deleteAction}>
+          <button className={s.deleteAction} onClick={() => openDeleteProduct(product.id)}>
             <TrashCan />
           </button>
         </div>

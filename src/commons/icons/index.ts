@@ -13,3 +13,4 @@ export * from './User';
 export * from './Logout';
 export * from './TrashCan';
 export * from './Edit';
+export * from './Alert';
