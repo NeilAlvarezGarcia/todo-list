@@ -1,21 +1,80 @@
 .wapper {
-  display: flex;
   flex: 1;
+  display: flex;
   gap: 3rem;
+  overflow: hidden;
 }
 
 .leftSide {
+  flex: 2;
   display: flex;
   flex-direction: column;
-  flex: 2;
   gap: 2rem;
+  overflow: hidden;
 }
+
 .topSide {
-  flex: 2;
+  flex: 1;
   display: flex;
 }
 
 .bottomSide {
-  flex: 5;
+  flex: 3;
   display: flex;
+}
+
+.bottomWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.topContainer,
+.bottomContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+}
+.topContainer {
+  flex: 1;
+}
+.bottomContainer {
+  width: 100%;
+  height: fit-content;
+}
+
+.topContainer div,
+.bottomContainer div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.wapper div label {
+  font-size: 2rem;
+  color: var(--secondary-background);
+}
+
+.wapper div input {
+  border: thin solid #ccc;
+  padding: 1rem 2rem;
+  color: var(--main-background);
+  font-size: 1.6rem;
+  border-radius: 1rem;
+}
+
+.rightSide {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.groupDetail {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: thin solid #ccc;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
 }

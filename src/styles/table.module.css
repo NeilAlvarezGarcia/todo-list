@@ -11,8 +11,6 @@
   flex-direction: column;
   flex: 1;
   overflow-y: hidden;
-  overflow-x: auto;
-  max-width: 100%;
 }
 
 .tableHead {
@@ -30,7 +28,7 @@
 .tableHead tr,
 .tableBody tr {
   flex: 1;
-  max-height: 7.5rem;
+  max-height: 6.5rem;
   display: flex;
   border-bottom: thin solid #bbb;
   justify-content: space-between;
@@ -39,7 +37,7 @@
 .tableBody tr td {
   flex: 1;
   display: flex;
-  padding: 2rem;
+  padding: 1.2rem 2rem;
   align-items: center;
   text-transform: capitalize;
 }
@@ -83,11 +81,13 @@
   cursor: pointer;
 }
 
-.empty {
+tr.empty {
   flex: 1;
-  text-align: center;
+  display: flex;
+  align-self: center;
   margin-top: 3rem;
   color: var(--main-background);
+  border: none;
 }
 
 .actionsContainer {

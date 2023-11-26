@@ -6,7 +6,6 @@ const ADMINISTRATION = '/administracion';
 const INVENTORY = '/inventario';
 const SALES = '/ventas';
 const HISTORY = '/historial';
-const REPORTS = '/reportes';
 const PROFILE = '/perfil';
 
 const SIDEBAR = [
@@ -40,12 +39,6 @@ const SIDEBAR = [
     icon: <Clock />,
     private: false,
   },
-  {
-    name: 'Reportes',
-    href: REPORTS,
-    icon: <Chart />,
-    private: true,
-  },
 ];
 
-export { LOGIN, DASHBOARD, ADMINISTRATION, INVENTORY, SALES, HISTORY, REPORTS, PROFILE, SIDEBAR };
+export { LOGIN, DASHBOARD, ADMINISTRATION, INVENTORY, SALES, HISTORY, PROFILE, SIDEBAR };
