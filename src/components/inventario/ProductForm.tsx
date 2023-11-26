@@ -11,6 +11,7 @@ type Props = {
   error: string;
   loading: boolean;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  edit?: boolean;
 };
 
 export const ProductForm: FC<Props> = ({
@@ -20,6 +21,7 @@ export const ProductForm: FC<Props> = ({
   error,
   loading,
   handleSubmit,
+  edit = false,
 }) => {
   return (
     <form className={s.formModal} onSubmit={handleSubmit}>
@@ -50,7 +52,11 @@ export const ProductForm: FC<Props> = ({
         <p className={`${s.textError} ${Boolean(error) && s.active}`}>{error}</p>
       </div>
 
-      <button>{loading ? 'Agregando producto...' : 'Agregar producto'}</button>
+      <button>
+        {loading
+          ? `${edit ? 'Editando' : 'Agregando'} producto...`
+          : `${edit ? 'Editar' : 'Agregar'} producto`}
+      </button>
     </form>
   );
 };

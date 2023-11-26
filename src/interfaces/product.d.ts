@@ -6,4 +6,6 @@ export interface Product {
   stock: number;
   price: number;
   state: ProductState;
+  createdAt: number;
+  updatedAt: number;
 }

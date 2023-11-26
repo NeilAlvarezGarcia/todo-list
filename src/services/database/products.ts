@@ -1,6 +1,6 @@
 import { Product } from '@/interfaces';
 import { PRODUCTS } from '@/util/const';
-import { deleteDocument, getDocuments, setDocument } from '@/util/helpers';
+import { deleteDocument, getDocuments, setDocument, updateDocument } from '@/util/helpers';
 
 async function addProduct(data: Product) {
   return await setDocument(PRODUCTS, data.id, data);
@@ -14,4 +14,8 @@ async function deleteProduct(productId: string) {
   await deleteDocument(PRODUCTS, productId);
 }
 
-export { addProduct, getProducts, deleteProduct };
+async function updateProduct(data: Product) {
+  await updateDocument(PRODUCTS, data.id, data);
+}
+
+export { addProduct, getProducts, deleteProduct, updateProduct };

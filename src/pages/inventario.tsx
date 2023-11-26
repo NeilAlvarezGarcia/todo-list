@@ -6,21 +6,23 @@ import { revalidateInterval, TABLE_PRODUCTS_HEADER } from '@/util/const';
 import Head from 'next/head';
 import { FC, useState } from 'react';
 
-import { AddProduct, ProductTableRow } from '@/components/inventario';
+import { AddProduct, EditProduct, ProductForm, ProductTableRow } from '@/components/inventario';
 import { Alert } from '@/commons/icons';
 import { Modal } from '@/components';
 import { useOpenModal } from '@/hooks';
+import s from '@/styles/modal.module.css';
 
 type Props = {
   data: Product[];
 };
 
 const Inventario: FC<Props> = ({ data }) => {
-  const [prodcucts, setProducts] = useState(data);
+  const [products, setProducts] = useState(data);
 
   const [deleteProductOpen, openDeleteProduct, closeDeleteProduct] = useOpenModal();
+  const [editProductOpen, openEditProduct, closeEditProduct] = useOpenModal();
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [productToDeleteId, setProductToDeleteId] = useState('');
+  const [productSelected, setProductSelected] = useState<Product | null>(null);
 
   const refreshData = async () => {
     const data = await getProducts();
@@ -28,22 +30,35 @@ const Inventario: FC<Props> = ({ data }) => {
     setProducts(data);
   };
 
+  const toggleDeleteLoader = () => setDeleteLoading((prev) => !prev);
+
   const onDeleteProduct = async () => {
-    setDeleteLoading(true);
+    if (!productSelected?.id) return;
+
+    toggleDeleteLoader();
     try {
-      await deleteProduct(productToDeleteId);
+      await deleteProduct(productSelected?.id);
       await refreshData();
     } catch (error) {
       console.log(error);
     } finally {
       closeDeleteProduct();
-      setDeleteLoading(false);
+      toggleDeleteLoader();
     }
   };
 
-  const openDeleteModal = (productId: string) => {
-    setProductToDeleteId(productId);
+  const openDeleteModal = (product: Product) => {
+    setProductSelected(product);
     openDeleteProduct();
+  };
+  const openEditModal = (product: Product) => {
+    setProductSelected(product);
+    openEditProduct();
+  };
+
+  const closeEditModal = () => {
+    setProductSelected(null);
+    closeEditProduct();
   };
 
   return (
@@ -58,12 +73,13 @@ const Inventario: FC<Props> = ({ data }) => {
 
           <Table
             headers={TABLE_PRODUCTS_HEADER}
-            data={prodcucts as unknown as tableDataRecord[]}
+            data={products as unknown as tableDataRecord[]}
             row={(item, i) => (
               <ProductTableRow
                 key={i}
                 product={item as unknown as Product}
-                openDeleteProduct={openDeleteModal}
+                openDeleteModal={openDeleteModal}
+                openEditModal={openEditModal}
               />
             )}
           />
@@ -71,13 +87,26 @@ const Inventario: FC<Props> = ({ data }) => {
       </DashboardLayout>
 
       <Modal open={deleteProductOpen} closeModal={closeDeleteProduct}>
-        <Alert />
-        <h2>¿Estas seguro?</h2>
-        <p>Deseas eliminar este producto</p>
-        <button onClick={onDeleteProduct}>
-          {deleteLoading ? 'Eliminando producto...' : 'Si, continuar'}
-        </button>
+        <section className={s.deleteContent}>
+          <Alert />
+
+          <div className={s.description}>
+            <h2>¿Estas seguro?</h2>
+            <p>Deseas eliminar este producto</p>
+          </div>
+
+          <button onClick={onDeleteProduct} className={s.deleteButton}>
+            {deleteLoading ? 'Eliminando producto...' : 'Si, continuar'}
+          </button>
+        </section>
       </Modal>
+
+      <EditProduct
+        refresh={refreshData}
+        editProductOpen={editProductOpen}
+        closeEditProduct={closeEditModal}
+        productSelected={productSelected as Product}
+      />
     </>
   );
 };

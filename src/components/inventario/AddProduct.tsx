@@ -1,17 +1,19 @@
 import { Product } from '@/interfaces';
 import { addProduct } from '@/services';
 import { activeProducte } from '@/util/const';
-import randomstring from 'randomstring';
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { AddButton } from '..';
 import { ProductForm } from './ProductForm';
+import { generateRandomId, validateFormData } from '@/util/helpers';
+import moment from 'moment';
 
 type Props = {
   refresh: () => Promise<void>;
 };
 
-const INITIAL_STATE: Product = {
-  id: '',
+type FormType = Omit<Omit<Omit<Product, 'id'>, 'createdAt'>, 'updatedAt'>;
+
+const INITIAL_STATE: FormType = {
   name: '',
   stock: 0,
   price: 0,
@@ -19,7 +21,7 @@ const INITIAL_STATE: Product = {
 };
 
 export const AddProduct: FC<Props> = ({ refresh }) => {
-  const [formData, setFormData] = useState<Product>(INITIAL_STATE);
+  const [formData, setFormData] = useState<FormType>(INITIAL_STATE);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -37,20 +39,21 @@ export const AddProduct: FC<Props> = ({ refresh }) => {
   const handleSubmit = async (close: VoidFunction, e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (!Object.values(formData).every((val) => !Boolean(val))) return;
+    if (!validateFormData(formData)) return setError('Los campos no pueden estar vacios');
 
     toggleLoader();
     setError('');
 
-    const id = randomstring.generate({
-      length: 12,
-      charset: 'numeric',
-    });
+    const id = generateRandomId();
 
     try {
-      const productData = {
+      const currentTime = moment().valueOf();
+
+      const productData: Product = {
         ...formData,
         id,
+        createdAt: currentTime,
+        updatedAt: currentTime,
       };
 
       await addProduct(productData);
@@ -69,7 +72,7 @@ export const AddProduct: FC<Props> = ({ refresh }) => {
       {(close) => (
         <ProductForm
           error={error}
-          formData={formData}
+          formData={formData as Product}
           handleChange={handleChange}
           handleSubmit={(e) => handleSubmit(close, e)}
           loading={loading}
