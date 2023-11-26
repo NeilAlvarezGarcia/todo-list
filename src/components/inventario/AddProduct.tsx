@@ -1,10 +1,10 @@
 import { Product } from '@/interfaces';
 import { addProduct } from '@/services';
-import { activeProducte } from '@/util/const';
+import { activeProducte } from '@/utils/const';
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { AddButton } from '..';
 import { ProductForm } from './ProductForm';
-import { generateRandomId, validateFormData } from '@/util/helpers';
+import { generateRandomId, validateFormData } from '@/utils/helpers';
 import moment from 'moment';
 
 type Props = {

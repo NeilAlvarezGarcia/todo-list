@@ -3,7 +3,7 @@ import { updateProduct } from '@/services';
 import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { Modal } from '..';
 import { ProductForm } from './ProductForm';
-import { validateFormData } from '@/util/helpers';
+import { validateFormData } from '@/utils/helpers';
 import moment from 'moment';
 
 type Props = {

@@ -1,6 +1,6 @@
 import { Product } from '@/interfaces';
-import { PRODUCTS } from '@/util/const';
-import { deleteDocument, getDocuments, setDocument, updateDocument } from '@/util/helpers';
+import { PRODUCTS } from '@/utils/const';
+import { deleteDocument, getDocuments, setDocument, updateDocument } from '@/utils/helpers';
 
 async function addProduct(data: Product) {
   return await setDocument(PRODUCTS, data.id, data);

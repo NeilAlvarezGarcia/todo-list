@@ -1,4 +1,4 @@
-import { EMPLYEE_ROL, SIDEBAR } from '@/util/const';
+import { EMPLYEE_ROL, SIDEBAR } from '@/utils/const';
 import React, {
   FC,
   PropsWithChildren,

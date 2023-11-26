@@ -1,6 +1,6 @@
 import { Edit, TrashCan } from '@/commons/icons';
 import { Product } from '@/interfaces';
-import { formatCurrency } from '@/util/helpers';
+import { formatCurrency } from '@/utils/helpers';
 import { FC } from 'react';
 import s from '@/styles/table.module.css';
 

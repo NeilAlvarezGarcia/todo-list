@@ -1,6 +1,6 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
-import { TABLE_HISTORIES_HEADER } from '@/util/const';
+import { TABLE_HISTORIES_HEADER } from '@/utils/const';
 import Head from 'next/head';
 import { Fragment } from 'react';
 

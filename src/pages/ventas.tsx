@@ -3,37 +3,38 @@ import Head from 'next/head';
 import s from '@/styles/sales.module.css';
 import tableStyles from '@/styles/table.module.css';
 import { getProducts } from '@/services';
-import { TABLE_PRODUCTS_PURCHASE_HEADER, revalidateInterval } from '@/util/const';
+import { TABLE_PRODUCTS_PURCHASE_HEADER, activeProduct, revalidateInterval } from '@/utils/const';
 import { Product } from '@/interfaces';
 import { ChangeEvent, FC, Fragment, useState } from 'react';
 import { Table, tableDataRecord } from '@/commons/Table';
-import { formatCurrency } from '@/util/helpers';
+import { formatCurrency } from '@/utils/helpers';
 import { AutoCompleteSelect } from '@/commons/forms';
 import { TrashCan } from '@/commons/icons';
 
 type Props = {
-  data: Product[];
+  products: Product[];
 };
 
-const INITIAL_FORM_STATE = {
-  clientName: '',
-  documentClientNumber: '',
-  products: [],
-  total: 0,
-};
+type ProductsSelected = { product: Product; quantity: number }[];
+
 const INITIAL_PRODUCT_STATE = {
   option: { label: '', value: '' },
   quantity: 0,
 };
+const INITIAL_CLIENT_STATE = {
+  clientName: '',
+  documentClientNumber: '',
+};
 
-const Ventas: FC<Props> = ({ data }) => {
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
+const Ventas: FC<Props> = ({ products }) => {
+  const [clientData, setClientData] = useState(INITIAL_CLIENT_STATE);
+  const [productsSelected, setProductsSelected] = useState<ProductsSelected>([]);
   const [product, setProduct] = useState(INITIAL_PRODUCT_STATE);
 
-  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleClientDataChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setFormData((prevFormData) => ({
+    setClientData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
@@ -68,8 +69,8 @@ const Ventas: FC<Props> = ({ data }) => {
                       type='text'
                       name='documentClientNumber'
                       id='documentClientNumber'
-                      value={formData.documentClientNumber}
-                      onChange={handleFormChange}
+                      value={clientData.documentClientNumber}
+                      onChange={handleClientDataChange}
                     />
                   </div>
 
@@ -79,8 +80,8 @@ const Ventas: FC<Props> = ({ data }) => {
                       type='text'
                       name='clientName'
                       id='clientName'
-                      value={formData.clientName}
-                      onChange={handleFormChange}
+                      value={clientData.clientName}
+                      onChange={handleClientDataChange}
                     />
                   </div>
                 </div>
@@ -94,7 +95,7 @@ const Ventas: FC<Props> = ({ data }) => {
                     <div>
                       <label htmlFor='product'>Producto</label>
                       <AutoCompleteSelect
-                        options={data?.map((item) => ({ label: item.name, value: item.id }))}
+                        options={products?.map((item) => ({ label: item.name, value: item.id }))}
                         onValueChange={(option) => handleProductChange('productId', option)}
                         name='productId'
                         placeholder='Buscar producto'
@@ -122,7 +123,7 @@ const Ventas: FC<Props> = ({ data }) => {
 
                   <Table
                     headers={TABLE_PRODUCTS_PURCHASE_HEADER}
-                    data={data as unknown as tableDataRecord[]}
+                    data={productsSelected as unknown as tableDataRecord[]}
                     row={(item, i) => (
                       <Fragment key={i}>
                         <td>
@@ -145,7 +146,7 @@ const Ventas: FC<Props> = ({ data }) => {
           </section>
 
           <SectionLayout title='Detalle de la compra'>
-            <div className={s.rightSide}>
+            {/* <div className={s.rightSide}>
               <div className={s.groupDetail}>
                 <h4>Sub total</h4>
 
@@ -165,7 +166,7 @@ const Ventas: FC<Props> = ({ data }) => {
               </div>
 
               <button>Terminar venta</button>
-            </div>
+            </div> */}
           </SectionLayout>
         </form>
       </DashboardLayout>
@@ -176,9 +177,11 @@ const Ventas: FC<Props> = ({ data }) => {
 export async function getStaticProps() {
   const data = await getProducts();
 
+  const products = data.filter((product) => product.state === activeProduct);
+
   return {
     props: {
-      data,
+      products,
     },
     revalidate: revalidateInterval,
   };

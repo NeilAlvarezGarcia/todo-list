@@ -1,5 +1,5 @@
 import { Input, Select } from '@/commons/forms';
-import { activeProducte, inactiveProducte } from '@/util/const';
+import { activeProduct, inactiveProduct } from '@/utils/const';
 import React, { ChangeEvent, FC, FormEvent } from 'react';
 import s from '@/styles/forms.module.css';
 import { Product } from '@/interfaces';
@@ -42,8 +42,8 @@ export const ProductForm: FC<Props> = ({
           label='Estado'
           name='state'
           options={[
-            { name: activeProducte, value: activeProducte },
-            { name: inactiveProducte, value: inactiveProducte },
+            { name: activeProduct, value: activeProduct },
+            { name: inactiveProduct, value: inactiveProduct },
           ]}
           value={formData.state}
           onValuechange={handleChange}

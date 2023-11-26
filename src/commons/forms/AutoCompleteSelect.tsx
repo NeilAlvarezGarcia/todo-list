@@ -43,6 +43,7 @@ export const AutoCompleteSelect: FC<Props> = ({
         onBlur={closeList}
         placeholder={placeholder}
         name={name}
+        autoComplete='off'
       />
 
       <div className={`${s.floatingList} ${isOpen && s.open}`}>

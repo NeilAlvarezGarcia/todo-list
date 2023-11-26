@@ -6,7 +6,7 @@ import {
   messagingSenderId,
   projectId,
   storageBucket,
-} from '@/util/const';
+} from '@/utils/const';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 

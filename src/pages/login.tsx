@@ -3,9 +3,9 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import formStyles from '@/styles/forms.module.css';
 import loginStyles from '@/styles/login.module.css';
 import { FormData } from '@/interfaces';
-import { errorMessages } from '@/util/const';
+import { errorMessages } from '@/utils/const';
 import Head from 'next/head';
-import { validateUserData } from '@/util/helpers';
+import { validateUserData } from '@/utils/helpers';
 import { loginUser } from '@/services';
 
 const INITIAL_STATE: FormData = {

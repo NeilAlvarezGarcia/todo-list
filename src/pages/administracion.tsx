@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { getUsers } from '@/services';
 import { User } from '@/interfaces';
 import { FC, useState } from 'react';
-import { TABLE_USERS_HEADER, revalidateInterval } from '@/util/const';
+import { TABLE_USERS_HEADER, revalidateInterval } from '@/utils/const';
 import { AddUser, UserTableRow } from '@/components/administracion';
 
 type Props = {

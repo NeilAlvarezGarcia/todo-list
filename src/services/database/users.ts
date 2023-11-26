@@ -1,5 +1,5 @@
-import { getDocument, getDocuments, setDocument } from '@/util/helpers';
-import { USERS } from '@/util/const';
+import { getDocument, getDocuments, setDocument } from '@/utils/helpers';
+import { USERS } from '@/utils/const';
 import { User } from '@/interfaces';
 
 async function addUser(data: User) {

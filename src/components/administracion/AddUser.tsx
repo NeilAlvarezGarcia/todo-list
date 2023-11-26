@@ -1,11 +1,11 @@
 import { Input, Select } from '@/commons/forms';
 import { FormData } from '@/interfaces';
 import { createUser } from '@/services';
-import { ADMIN_ROL, EMPLYEE_ROL } from '@/util/const';
+import { ADMIN_ROL, EMPLYEE_ROL } from '@/utils/const';
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { AddButton } from '..';
 import s from '@/styles/forms.module.css';
-import { validateUserData } from '@/util/helpers';
+import { validateUserData } from '@/utils/helpers';
 
 type Props = {
   refresh: () => Promise<void>;
