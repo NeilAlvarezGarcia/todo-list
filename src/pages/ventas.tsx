@@ -5,7 +5,7 @@ import tableStyles from '@/styles/table.module.css';
 import { getProducts } from '@/services';
 import { TABLE_PRODUCTS_PURCHASE_HEADER, activeProduct, revalidateInterval } from '@/utils/const';
 import { Product } from '@/interfaces';
-import { ChangeEvent, FC, Fragment, useState } from 'react';
+import { ChangeEvent, FC, Fragment, useMemo, useState } from 'react';
 import { Table, tableDataRecord } from '@/commons/Table';
 import { formatCurrency } from '@/utils/helpers';
 import { AutoCompleteSelect } from '@/commons/forms';
@@ -15,12 +15,9 @@ type Props = {
   products: Product[];
 };
 
-type ProductsSelected = { product: Product; quantity: number }[];
+type ProductsSelected = (Product & { quantity: number })[];
 
-const INITIAL_PRODUCT_STATE = {
-  option: { label: '', value: '' },
-  quantity: 0,
-};
+const INITIAL_PRODUCT_STATE = { label: '', value: '', quantity: 0 };
 const INITIAL_CLIENT_STATE = {
   clientName: '',
   documentClientNumber: '',
@@ -30,6 +27,19 @@ const Ventas: FC<Props> = ({ products }) => {
   const [clientData, setClientData] = useState(INITIAL_CLIENT_STATE);
   const [productsSelected, setProductsSelected] = useState<ProductsSelected>([]);
   const [product, setProduct] = useState(INITIAL_PRODUCT_STATE);
+
+  const subtotalPurchase = useMemo(
+    () =>
+      productsSelected.reduce((counter, product) => {
+        const productPrice = Number(product.price);
+        const total = productPrice * Number(product.quantity);
+        return (counter += total);
+      }, 0),
+    [productsSelected]
+  );
+
+  const ivaAmount = subtotalPurchase * 0.18;
+  const total = subtotalPurchase * 1.18;
 
   const handleClientDataChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,8 +58,21 @@ const Ventas: FC<Props> = ({ products }) => {
   };
 
   const addProduct = () => {
-    console.log(product);
+    const productFound = products.find((item) => item.id === product.value);
+
+    if (!productFound || !product.quantity) return;
+
+    setProductsSelected((prev) => [...prev, { ...productFound, quantity: product.quantity }]);
+    setProduct(INITIAL_PRODUCT_STATE);
   };
+
+  const removeProduct = (id: string) => {
+    const productsFiltered = productsSelected.filter((item) => item.id !== id);
+
+    setProductsSelected(productsFiltered);
+  };
+
+  const handleSubmit = async () => {};
 
   return (
     <>
@@ -96,10 +119,9 @@ const Ventas: FC<Props> = ({ products }) => {
                       <label htmlFor='product'>Producto</label>
                       <AutoCompleteSelect
                         options={products?.map((item) => ({ label: item.name, value: item.id }))}
-                        onValueChange={(option) => handleProductChange('productId', option)}
-                        name='productId'
+                        onValueChange={handleProductChange}
                         placeholder='Buscar producto'
-                        optionSelected={product.option}
+                        value={product.label}
                       />
                     </div>
 
@@ -124,19 +146,27 @@ const Ventas: FC<Props> = ({ products }) => {
                   <Table
                     headers={TABLE_PRODUCTS_PURCHASE_HEADER}
                     data={productsSelected as unknown as tableDataRecord[]}
-                    row={(item, i) => (
-                      <Fragment key={i}>
-                        <td>
-                          <button className={tableStyles.deleteAction}>
-                            <TrashCan />
-                          </button>
-                        </td>
-                        <td>{item.name}</td>
-                        <td>{2}</td>
-                        <td>{formatCurrency(10000)}</td>
-                        <td>{formatCurrency(20000)}</td>
-                      </Fragment>
-                    )}
+                    row={(product, i) => {
+                      const productPrice = Number(product.price);
+                      const total = productPrice * Number(product.quantity);
+
+                      return (
+                        <Fragment key={product.id}>
+                          <td>
+                            <button
+                              type='button'
+                              className={tableStyles.deleteAction}
+                              onClick={() => removeProduct(product.id as string)}>
+                              <TrashCan />
+                            </button>
+                          </td>
+                          <td>{product.name}</td>
+                          <td>{product.quantity}</td>
+                          <td>{formatCurrency(productPrice)}</td>
+                          <td>{formatCurrency(total)}</td>
+                        </Fragment>
+                      );
+                    }}
                     emptyText='No hay productos agregados'
                     hasPagination={false}
                   />
@@ -146,27 +176,27 @@ const Ventas: FC<Props> = ({ products }) => {
           </section>
 
           <SectionLayout title='Detalle de la compra'>
-            {/* <div className={s.rightSide}>
+            <div className={s.rightSide}>
               <div className={s.groupDetail}>
                 <h4>Sub total</h4>
 
-                <p>{formatCurrency(formData.total)}</p>
+                <p>{formatCurrency(subtotalPurchase)}</p>
               </div>
 
               <div className={s.groupDetail}>
                 <h4>IGV (18%)</h4>
 
-                <p>{formatCurrency(formData.total)}</p>
+                <p>{formatCurrency(ivaAmount)}</p>
               </div>
 
               <div className={s.groupDetail}>
                 <h4>Total</h4>
 
-                <p>{formatCurrency(formData.total)}</p>
+                <p>{formatCurrency(total)}</p>
               </div>
 
               <button>Terminar venta</button>
-            </div> */}
+            </div>
           </SectionLayout>
         </form>
       </DashboardLayout>
