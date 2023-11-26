@@ -24,7 +24,7 @@ export const LastSevenDaysSale: FC<Props> = ({ lastSevenDaysPurchases }) => {
 
   const data = {
     labels: getLastSevenDays(),
-    datasets: [getDataSets('Venta de los últimos 7 días', Object.values(days))],
+    datasets: [getDataSets(Object.values(days), 'Venta de los últimos 7 días')],
   };
 
   return (

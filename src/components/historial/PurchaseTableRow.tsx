@@ -15,6 +15,9 @@ export const PurchaseTableRow: FC<Props> = ({ purchase }) => {
       <td>{purchase.clientName}</td>
       <td>{formatCurrency(purchase.ivaAmount)}</td>
       <td>{formatCurrency(purchase.total)}</td>
+      <td>
+        <button>Ver detalle</button>
+      </td>
     </>
   );
 };

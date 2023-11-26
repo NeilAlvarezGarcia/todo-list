@@ -21,6 +21,7 @@ const TABLE_HISTORIES_HEADER = [
   { id: 'clientName', name: 'Nombre Cliente' },
   { id: 'iva', name: 'IVA' },
   { id: 'total', name: 'Total' },
+  { id: 'actions', name: '' },
 ];
 
 const TABLE_PRODUCTS_PURCHASE_HEADER = [

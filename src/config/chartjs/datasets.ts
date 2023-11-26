@@ -1,4 +1,4 @@
-export function getDataSets(label: string, data: (string | number)[]) {
+export function getDataSets(data: (string | number)[], label?: string) {
   return {
     label,
     data,
