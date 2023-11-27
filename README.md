@@ -25,3 +25,5 @@ password: admin123
 Employee:
 email: user@gmail.com
 password: user1234
+
+Deployed on vercel. Check the demo [store-line](https://store-line.vercel.app/ "store-line")
