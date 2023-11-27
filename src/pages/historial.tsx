@@ -35,9 +35,9 @@ const Ventas: FC<Props> = ({ purchases }) => {
           <Table
             headers={TABLE_HISTORIES_HEADER}
             data={purchases as unknown as tableDataRecord[]}
-            row={(item) => (
+            row={(item, i) => (
               <PurchaseTableRow
-                key={item.purchaseId}
+                key={i}
                 purchase={item as unknown as Purchase}
                 openDetailModal={openDetailModal}
               />

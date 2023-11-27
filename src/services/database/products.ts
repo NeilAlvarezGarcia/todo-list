@@ -1,5 +1,5 @@
 import { Product } from '@/interfaces';
-import { PRODUCTS } from '@/utils/const';
+import { PRODUCTS, activeProduct } from '@/utils/const';
 import {
   deleteDocument,
   getDocument,
@@ -28,4 +28,10 @@ async function updateProduct(data: Product) {
   await updateDocument(PRODUCTS, data.id, data);
 }
 
-export { addProduct, getProducts, deleteProduct, updateProduct, getProduct };
+function getAvailableProducts(data: Product[]) {
+  return data.filter(
+    (product) => product.state === activeProduct && Boolean(Number(product.stock))
+  );
+}
+
+export { addProduct, getProducts, deleteProduct, updateProduct, getProduct, getAvailableProducts };

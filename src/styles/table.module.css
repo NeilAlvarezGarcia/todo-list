@@ -113,3 +113,10 @@ tr.empty {
   justify-content: center;
   align-items: center;
 }
+
+.activo {
+  color: rgba(37, 176, 37, 0.8);
+}
+.inactivo {
+  color: #ff0000;
+}

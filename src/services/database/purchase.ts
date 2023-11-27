@@ -1,5 +1,5 @@
 import { Product, Purchase } from '@/interfaces';
-import { PURCHASES } from '@/utils/const';
+import { PURCHASES, inactiveProduct } from '@/utils/const';
 import { getDocuments, getDocumentsWhere, setDocument } from '@/utils/helpers';
 import moment from 'moment';
 import { getProduct, updateProduct } from '..';
@@ -35,9 +35,11 @@ async function getTopSales(purchases: Purchase[]) {
 async function updateProductsStock(products: ProductSelected[]) {
   for (let product of products) {
     const result = (await getProduct(product.id)) as Product;
+    const stock = Number(result.stock) - product.quantity;
     await updateProduct({
       ...result,
-      stock: Number(result.stock) - product.quantity,
+      stock,
+      ...(!Boolean(stock) && { state: inactiveProduct }),
     });
   }
 }

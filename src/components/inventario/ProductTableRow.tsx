@@ -21,7 +21,7 @@ export const ProductTableRow: FC<Props> = ({ product, openDeleteModal, openEditM
 
       <td>{formatCurrency(Number(product.price))}</td>
 
-      <td>{product.state}</td>
+      <td className={s[product.state]}>{product.state}</td>
 
       <td>
         <div className={s.actionsContainer}>

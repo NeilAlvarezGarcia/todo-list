@@ -1,7 +1,7 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import Head from 'next/head';
 import s from '@/styles/sales.module.css';
-import { addPurchase, getProducts, updateProductsStock } from '@/services';
+import { addPurchase, getAvailableProducts, getProducts, updateProductsStock } from '@/services';
 import { TABLE_PRODUCTS_PURCHASE_HEADER, activeProduct, revalidateInterval } from '@/utils/const';
 import { Product, Purchase } from '@/interfaces';
 import { ChangeEvent, FC, FormEvent, useMemo, useState } from 'react';
@@ -13,7 +13,7 @@ import { ClientInfo, PurchaseDetail } from '@/components/ventas';
 import { ProductPurchaseTableRow } from '@/components/ventas/ProductPurchaseTableRow';
 
 type Props = {
-  products: Product[];
+  data: Product[];
 };
 
 export type ProductSelected = Product & { quantity: number };
@@ -25,7 +25,8 @@ const INITIAL_CLIENT_STATE = {
   documentClientNumber: '',
 };
 
-const Ventas: FC<Props> = ({ products }) => {
+const Ventas: FC<Props> = ({ data }) => {
+  const [products, setProducts] = useState(data);
   const [clientData, setClientData] = useState(INITIAL_CLIENT_STATE);
   const [productsSelected, setProductsSelected] = useState<ProductsSelected>([]);
   const [product, setProduct] = useState(INITIAL_PRODUCT_STATE);
@@ -46,6 +47,11 @@ const Ventas: FC<Props> = ({ products }) => {
   const ivaAmount = subtotalPurchase * 0.18;
   const total = subtotalPurchase * 1.18;
 
+  const resetErrors = () => {
+    setError('');
+    setErrorStock('');
+  };
+
   const handleClientDataChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -53,6 +59,7 @@ const Ventas: FC<Props> = ({ products }) => {
       ...prevFormData,
       [name]: value,
     }));
+    resetErrors();
   };
 
   const handleProductChange = (name: string, value: any) => {
@@ -60,20 +67,21 @@ const Ventas: FC<Props> = ({ products }) => {
       ...prevFormData,
       [name]: value,
     }));
+    resetErrors();
   };
 
   const addProduct = () => {
     const productFound = products.find((item) => item.id === product.value);
     const quantity = Number(product.quantity);
 
-    if (!productFound || quantity < 1) return;
+    if (!productFound || quantity < 1) return setErrorStock('Selecciona un producto y su cantidad');
 
     if (productFound.stock < quantity)
       return setErrorStock('El stock del producto es menor a la cantidad');
 
     setProductsSelected((prev) => [...prev, { ...productFound, quantity }]);
     setProduct(INITIAL_PRODUCT_STATE);
-    setErrorStock('');
+    resetErrors();
   };
 
   const removeProduct = (id: string) => {
@@ -105,13 +113,23 @@ const Ventas: FC<Props> = ({ products }) => {
 
       await addPurchase(purchase);
       await updateProductsStock(productsSelected);
+      await refreshData();
     } catch (error) {
-      setError('');
+      setError('Ocurrió un error generando la venta');
     } finally {
       toggleLoader();
       setClientData(INITIAL_CLIENT_STATE);
       setProductsSelected([]);
+      resetErrors();
     }
+  };
+
+  const refreshData = async () => {
+    const data = await getProducts();
+
+    const products = getAvailableProducts(data);
+
+    setProducts(products);
   };
 
   return (
@@ -134,7 +152,9 @@ const Ventas: FC<Props> = ({ products }) => {
                     <div>
                       <label htmlFor='product'>Producto</label>
                       <AutoCompleteSelect
-                        options={products?.map((item) => ({ label: item.name, value: item.id }))}
+                        options={
+                          products?.map((item) => ({ label: item.name, value: item.id })) ?? []
+                        }
                         onValueChange={handleProductChange}
                         placeholder='Buscar producto'
                         value={product.label}
@@ -164,7 +184,7 @@ const Ventas: FC<Props> = ({ products }) => {
                   <Table
                     headers={TABLE_PRODUCTS_PURCHASE_HEADER}
                     data={productsSelected as unknown as tableDataRecord[]}
-                    row={(product) => (
+                    row={(product, i) => (
                       <ProductPurchaseTableRow
                         key={product.id}
                         product={product as unknown as ProductSelected}
@@ -195,15 +215,12 @@ const Ventas: FC<Props> = ({ products }) => {
 export async function getStaticProps() {
   const data = await getProducts();
 
-  const products = data.filter(
-    (product) => product.state === activeProduct || Boolean(Number(product.stock))
-  );
+  const products = getAvailableProducts(data);
 
   return {
     props: {
-      products,
+      data: products,
     },
-    revalidate: revalidateInterval,
   };
 }
 
