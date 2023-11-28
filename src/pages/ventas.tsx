@@ -2,7 +2,7 @@ import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import Head from 'next/head';
 import s from '@/styles/sales.module.css';
 import { addPurchase, getAvailableProducts, getProducts, updateProductsStock } from '@/services';
-import { TABLE_PRODUCTS_PURCHASE_HEADER, activeProduct, revalidateInterval } from '@/utils/const';
+import { TABLE_PRODUCTS_PURCHASE_HEADER } from '@/utils/const';
 import { Product, Purchase } from '@/interfaces';
 import { ChangeEvent, FC, FormEvent, useMemo, useState } from 'react';
 import { Table, tableDataRecord } from '@/commons/Table';

@@ -1,6 +1,5 @@
 import { SectionLayout } from '@/commons/layouts';
 import { formatCurrency } from '@/utils/helpers';
-import error from 'next/error';
 import s from '@/styles/sales.module.css';
 import { FC } from 'react';
 

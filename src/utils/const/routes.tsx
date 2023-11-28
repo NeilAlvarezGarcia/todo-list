@@ -1,4 +1,4 @@
-import { BookContent, Chart, Clock, Gear, Home, PurchaseTag } from '@/commons/icons';
+import { BookContent, Clock, Gear, Home, PurchaseTag } from '@/commons/icons';
 
 const LOGIN = '/login';
 const DASHBOARD = '/';
