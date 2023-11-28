@@ -2,7 +2,7 @@ import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table, tableDataRecord } from '@/commons/Table';
 import { Product } from '@/interfaces';
 import { deleteProduct, getProducts } from '@/services';
-import { revalidateInterval, TABLE_PRODUCTS_HEADER } from '@/utils/const';
+import { TABLE_PRODUCTS_HEADER } from '@/utils/const';
 import Head from 'next/head';
 import { FC, useState } from 'react';
 
@@ -111,14 +111,13 @@ const Inventario: FC<Props> = ({ data }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const data = await getProducts();
 
   return {
     props: {
       data,
     },
-    revalidate: revalidateInterval,
   };
 }
 
