@@ -212,7 +212,7 @@ const Ventas: FC<Props> = ({ data }) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const data = await getProducts();
 
   const products = getAvailableProducts(data);
