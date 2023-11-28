@@ -1,14 +1,23 @@
 import { FC, PropsWithChildren } from 'react';
 import s from '@/styles/dashboard.module.css';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Chevron, Menu } from '@/commons/icons';
-import { useUI } from '@/context';
+import { useUI, useUser } from '@/context';
 import { Profile } from '@/components';
+import { LOGIN } from '@/utils/const';
 
 export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
+  const { push } = useRouter();
+
   const { sidebarOpen, toggleSideBar, sidebar } = useUI();
+  const { user } = useUser();
+
+  if (!user) {
+    push(LOGIN);
+    return null;
+  }
 
   return (
     <main className={s.main}>

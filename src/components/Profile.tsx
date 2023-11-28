@@ -1,13 +1,16 @@
 import { Logout, User } from '@/commons/icons';
 import { useUser } from '@/context';
-import { PROFILE } from '@/utils/const';
+import { LOGIN, PROFILE } from '@/utils/const';
 import { useOpenModal } from '@/hooks';
 import { logoutUser } from '@/services';
 import s from '@/styles/profile.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export const Profile = () => {
+  const { push } = useRouter();
+
   const [profileOptionsOpen, openProfileOptions, closeProfileOptions] = useOpenModal();
   const { user } = useUser();
 
@@ -16,6 +19,8 @@ export const Profile = () => {
       await logoutUser();
     } catch (error) {
       console.error(error);
+    } finally {
+      push(LOGIN);
     }
   };
 

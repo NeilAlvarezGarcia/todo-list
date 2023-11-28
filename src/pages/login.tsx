@@ -3,11 +3,12 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import formStyles from '@/styles/forms.module.css';
 import loginStyles from '@/styles/login.module.css';
 import { FormData } from '@/interfaces';
-import { DASHBOARD, errorMessages } from '@/utils/const';
+import { DASHBOARD, EMPLYEE_ROL, SALES, errorMessages } from '@/utils/const';
 import Head from 'next/head';
 import { validateUserData } from '@/utils/helpers';
 import { loginUser } from '@/services';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/context';
 
 const INITIAL_STATE: FormData = {
   email: '',
@@ -16,6 +17,8 @@ const INITIAL_STATE: FormData = {
 
 const Login = () => {
   const { push } = useRouter();
+
+  const { user } = useUser();
 
   const [formData, setFormData] = useState<FormData>(INITIAL_STATE);
   const [errorLogin, setErrorLogin] = useState('');
@@ -51,6 +54,12 @@ const Login = () => {
       push(DASHBOARD);
     }
   };
+
+  if (user) {
+    const route = user.role === EMPLYEE_ROL ? SALES : DASHBOARD;
+    push(route);
+    return null;
+  }
 
   return (
     <>
