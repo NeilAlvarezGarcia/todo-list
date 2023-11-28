@@ -3,10 +3,11 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import formStyles from '@/styles/forms.module.css';
 import loginStyles from '@/styles/login.module.css';
 import { FormData } from '@/interfaces';
-import { errorMessages } from '@/utils/const';
+import { DASHBOARD, errorMessages } from '@/utils/const';
 import Head from 'next/head';
 import { validateUserData } from '@/utils/helpers';
 import { loginUser } from '@/services';
+import { useRouter } from 'next/navigation';
 
 const INITIAL_STATE: FormData = {
   email: '',
@@ -14,6 +15,8 @@ const INITIAL_STATE: FormData = {
 };
 
 const Login = () => {
+  const { push } = useRouter();
+
   const [formData, setFormData] = useState<FormData>(INITIAL_STATE);
   const [errorLogin, setErrorLogin] = useState('');
   const [loading, setLoading] = useState(false);
@@ -45,6 +48,7 @@ const Login = () => {
       setErrorLogin(errorMessages.invalidCredentials);
     } finally {
       toggleLoader();
+      push(DASHBOARD);
     }
   };
 

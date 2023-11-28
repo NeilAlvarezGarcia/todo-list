@@ -1,3 +1,4 @@
+import { Loader } from '@/components';
 import { auth } from '@/config/firebase';
 import { User, UserContext } from '@/interfaces';
 import { getUser } from '@/services';
@@ -13,26 +14,37 @@ const INITIAL_STATE: UserContext = {
 const userContext = createContext<UserContext>(INITIAL_STATE);
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
   const { push } = useRouter();
+
+  const [user, setUser] = useState<User | null>(null);
+  const [loadingApp, setLoadingApp] = useState(true);
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user?.uid) return push(LOGIN);
+      if (!user?.uid) {
+        push(LOGIN);
+        stopLoader();
+        return;
+      }
 
       const userData = await getUser(user?.uid);
 
       setUser(userData as User);
+      stopLoader();
     });
 
     return () => unSubscribe();
   }, [push]);
 
+  const stopLoader = () => setLoadingApp(false);
+
   const value: UserContext = {
     user,
   };
 
-  return <userContext.Provider value={value}>{children}</userContext.Provider>;
+  return (
+    <userContext.Provider value={value}>{loadingApp ? <Loader /> : children}</userContext.Provider>
+  );
 };
 
 export const useUser = () => useContext(userContext);
