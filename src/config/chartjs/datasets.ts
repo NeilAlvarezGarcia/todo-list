@@ -1,8 +1,12 @@
-export function getDataSets(data: (string | number)[], label?: string) {
+export function getDataSets(
+  data: (string | number)[],
+  label?: string,
+  bgColorOptions = ['#55EAFF']
+) {
   return {
     label,
     data,
-    backgroundColor: ['#FF6859', '#F2F53A', '#75F02E', '#D123F3', '#55EAFF', ' #FF55BC'],
+    backgroundColor: bgColorOptions,
     borderColor: 'black',
     borderWidth: 2,
   };

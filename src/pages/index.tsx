@@ -2,18 +2,17 @@ import Head from 'next/head';
 import s from '@/styles/Home.module.css';
 import { DashboardLayout } from '@/commons/layouts';
 
-import { getPurchases, getSevenDaysPurchases, getTopSales } from '@/services';
+import { getSevenDaysPurchases, getTopSales } from '@/services';
 import { Purchase } from '@/interfaces';
 import { FC } from 'react';
 import { Indicators, LastSevenDaysSale, TopSales } from '@/components/dashboard';
 
 type Props = {
-  purchases: Purchase[];
   lastSevenDaysPurchases: Purchase[];
   topSales: Record<string, number>[];
 };
 
-const Home: FC<Props> = ({ purchases, lastSevenDaysPurchases, topSales }) => {
+const Home: FC<Props> = ({ lastSevenDaysPurchases, topSales }) => {
   return (
     <>
       <Head>
@@ -22,7 +21,7 @@ const Home: FC<Props> = ({ purchases, lastSevenDaysPurchases, topSales }) => {
 
       <DashboardLayout>
         <div className={s.wrapper}>
-          <Indicators purchases={purchases} />
+          <Indicators purchases={lastSevenDaysPurchases} />
 
           <div className={s.content}>
             <div className={s.leftSideContent}>
@@ -38,13 +37,11 @@ const Home: FC<Props> = ({ purchases, lastSevenDaysPurchases, topSales }) => {
 };
 
 export async function getServerSideProps() {
-  const purchases = await getPurchases();
   const lastSevenDaysPurchases = await getSevenDaysPurchases();
-  const topSales = await getTopSales(purchases);
+  const topSales = await getTopSales(lastSevenDaysPurchases);
 
   return {
     props: {
-      purchases,
       lastSevenDaysPurchases,
       topSales,
     },
