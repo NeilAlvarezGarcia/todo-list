@@ -38,7 +38,6 @@ export const AddUser: FC<Props> = ({ refresh }) => {
     } catch (error) {
       setError('Ocurrio un error creando el usuario');
     } finally {
-      toggleLoader();
       close();
       reset();
     }

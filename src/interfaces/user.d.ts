@@ -5,6 +5,7 @@ interface User {
   role: UserRol;
   name: string;
   uid: string;
+  id: string;
 }
 
 type Users = User[];

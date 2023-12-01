@@ -23,11 +23,24 @@ export const useForm = <T>(initial_state: T) => {
   const toggleLoader = () => setLoading((prevState) => !prevState);
 
   const watch = () => formData;
+
   const reset = () => {
     setFormData(initial_state);
     setError('');
     setLoading(false);
   };
 
-  return { onValueChange, watch, error, loading, onSubmit, setError, toggleLoader, reset };
+  const setFormValue = (formValue: T) => setFormData(formValue);
+
+  return {
+    onValueChange,
+    watch,
+    error,
+    loading,
+    onSubmit,
+    setError,
+    toggleLoader,
+    reset,
+    setFormValue,
+  };
 };

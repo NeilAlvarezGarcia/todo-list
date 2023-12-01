@@ -1,8 +1,8 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
-import { Table, tableDataRecord } from '@/commons/Table';
+import { Table } from '@/commons/Table';
 import Head from 'next/head';
 import { getUsers } from '@/services';
-import { User, Users } from '@/interfaces';
+import { Users } from '@/interfaces';
 import { FC, useState } from 'react';
 import { TABLE_USERS_HEADER, revalidateInterval } from '@/utils/const';
 import { AddUser, UserTableRow } from '@/components/administracion';
@@ -32,8 +32,8 @@ const Administracion: FC<Props> = ({ data }) => {
 
           <Table
             headers={TABLE_USERS_HEADER}
-            data={users as unknown as tableDataRecord[]}
-            row={(item, i) => <UserTableRow key={i} user={item as unknown as User} />}
+            data={users}
+            row={(item, i) => <UserTableRow key={i} user={item} />}
           />
         </SectionLayout>
       </DashboardLayout>

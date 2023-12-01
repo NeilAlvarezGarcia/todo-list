@@ -1,10 +1,11 @@
 import { Product } from '@/interfaces';
 import { updateProduct } from '@/services';
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { Modal } from '..';
 import { ProductForm } from './ProductForm';
 import { validateFormData } from '@/utils/helpers';
 import moment from 'moment';
+import { useForm } from '@/hooks';
 
 type Props = {
   refresh: () => Promise<void>;
@@ -21,34 +22,31 @@ export const EditProduct: FC<Props> = ({
   closeEditProduct,
   productSelected,
 }) => {
-  const [formData, setFormData] = useState<FormType>({} as FormType);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const {
+    onSubmit,
+    onValueChange,
+    watch,
+    error,
+    setError,
+    loading,
+    toggleLoader,
+    reset,
+    setFormValue,
+  } = useForm<FormType>({} as FormType);
+  const formData = watch();
 
   useEffect(() => {
-    setFormData({
+    setFormValue({
       name: productSelected?.name,
       stock: productSelected?.stock,
       price: productSelected?.price,
       state: productSelected?.state,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productSelected]);
 
-  const toggleLoader = () => setLoading((prevState) => !prevState);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!validateFormData(formData)) return setError('Los campos no pueden estar vacios');
+  const handleSubmit = async (data: FormType) => {
+    if (!validateFormData(data)) return setError('Los campos no pueden estar vacios');
 
     toggleLoader();
     setError('');
@@ -58,7 +56,7 @@ export const EditProduct: FC<Props> = ({
 
       const productData: Product = {
         ...productSelected,
-        ...formData,
+        ...data,
         updatedAt: currentTime,
       };
 
@@ -67,8 +65,8 @@ export const EditProduct: FC<Props> = ({
     } catch (error) {
       setError('Ocurrio un error creando el producto');
     } finally {
-      toggleLoader();
       closeEditProduct();
+      reset();
     }
   };
 
@@ -77,8 +75,8 @@ export const EditProduct: FC<Props> = ({
       <ProductForm
         error={error}
         formData={formData as Product}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        handleChange={onValueChange}
+        handleSubmit={onSubmit(handleSubmit)}
         loading={loading}
         title='Editar producto'
         edit

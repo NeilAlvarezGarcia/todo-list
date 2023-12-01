@@ -1,6 +1,6 @@
-export type ProductState = 'activo' | 'inactivo';
+type ProductState = 'activo' | 'inactivo';
 
-export interface Product {
+interface Product {
   id: string;
   name: string;
   stock: number;
@@ -9,3 +9,7 @@ export interface Product {
   createdAt: number;
   updatedAt: number;
 }
+
+type Products = Product[];
+
+export { ProductState, Product, Products };

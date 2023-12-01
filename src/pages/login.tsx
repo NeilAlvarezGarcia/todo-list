@@ -20,7 +20,7 @@ const Login = () => {
 
   const { user } = useUser();
 
-  const { onSubmit, onValueChange, watch, error, setError, loading, toggleLoader } =
+  const { onSubmit, onValueChange, watch, error, setError, loading, toggleLoader, reset } =
     useForm<FormData>(INITIAL_STATE);
   const { email, password } = watch();
 
@@ -37,7 +37,7 @@ const Login = () => {
     } catch (error) {
       setError(errorMessages.invalidCredentials);
     } finally {
-      toggleLoader();
+      reset();
       push(DASHBOARD);
     }
   };

@@ -1,27 +1,24 @@
-import { Chevron } from '@/commons/icons';
 import s from '@/styles/table.module.css';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-export type tableDataRecord = Record<string, string | number>;
+type TableHeader = {
+  id: string;
+  name: string;
+};
 
-type Props = {
-  headers: {
-    id: string;
-    name: string;
-  }[];
-  data: tableDataRecord[];
-  row: (item: tableDataRecord, i: number) => ReactNode;
-  hasPagination?: boolean;
+type Props<T> = {
+  headers: TableHeader[];
+  data: T[];
+  row: (item: T, i: number) => ReactNode;
   emptyText?: string;
 };
 
-export const Table: FC<Props> = ({
+export const Table = <T extends { id: string }>({
   headers = [],
   data = [],
   row = () => null,
-  hasPagination = true,
   emptyText = 'No hay ningún resultado',
-}) => {
+}: Props<T>) => {
   return (
     <div className={s.tableWrapper}>
       <table className={s.table}>
@@ -46,7 +43,7 @@ export const Table: FC<Props> = ({
         </tbody>
       </table>
 
-      {hasPagination && (
+      {/* {hasPagination && (
         <div className={s.pagination}>
           <div className={s.dataPerPage}>
             <p>filas por página</p>
@@ -72,7 +69,7 @@ export const Table: FC<Props> = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

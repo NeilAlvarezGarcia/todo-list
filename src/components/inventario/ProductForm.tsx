@@ -10,7 +10,7 @@ type Props = {
   handleChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   error: string;
   loading: boolean;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void> | void;
   edit?: boolean;
 };
 

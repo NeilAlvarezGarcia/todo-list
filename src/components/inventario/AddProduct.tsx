@@ -1,11 +1,12 @@
 import { Product } from '@/interfaces';
 import { addProduct } from '@/services';
 import { activeProduct } from '@/utils/const';
-import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { FC } from 'react';
 import { AddButton } from '..';
 import { ProductForm } from './ProductForm';
 import { generateRandomId, validateFormData } from '@/utils/helpers';
 import moment from 'moment';
+import { useForm } from '@/hooks';
 
 type Props = {
   refresh: () => Promise<void>;
@@ -21,39 +22,22 @@ const INITIAL_STATE: FormType = {
 };
 
 export const AddProduct: FC<Props> = ({ refresh }) => {
-  const [formData, setFormData] = useState<FormType>(INITIAL_STATE);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { onSubmit, onValueChange, watch, error, setError, loading, toggleLoader, reset } =
+    useForm<FormType>(INITIAL_STATE);
+  const formData = watch();
 
-  const toggleLoader = () => setLoading((prevState) => !prevState);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (close: VoidFunction, e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log(formData);
-
+  const handleSubmit = async (data: FormType, close: VoidFunction) => {
     if (!validateFormData(formData)) return setError('Los campos no pueden estar vacios');
 
     toggleLoader();
     setError('');
 
-    const id = generateRandomId();
-
     try {
       const currentTime = moment().valueOf();
 
       const productData: Product = {
-        ...formData,
-        id,
+        ...data,
+        id: generateRandomId(),
         createdAt: currentTime,
         updatedAt: currentTime,
       };
@@ -63,9 +47,8 @@ export const AddProduct: FC<Props> = ({ refresh }) => {
     } catch (error) {
       setError('Ocurrio un error creando el producto');
     } finally {
-      toggleLoader();
       close();
-      setFormData(INITIAL_STATE);
+      reset();
     }
   };
 
@@ -75,8 +58,8 @@ export const AddProduct: FC<Props> = ({ refresh }) => {
         <ProductForm
           error={error}
           formData={formData as Product}
-          handleChange={handleChange}
-          handleSubmit={(e) => handleSubmit(close, e)}
+          handleChange={onValueChange}
+          handleSubmit={(e) => onSubmit((data) => handleSubmit(data, close))(e)}
           loading={loading}
         />
       )}

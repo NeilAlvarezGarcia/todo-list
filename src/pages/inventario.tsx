@@ -1,6 +1,6 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
-import { Table, tableDataRecord } from '@/commons/Table';
-import { Product } from '@/interfaces';
+import { Table } from '@/commons/Table';
+import { Product, Products } from '@/interfaces';
 import { deleteProduct, getProducts } from '@/services';
 import { TABLE_PRODUCTS_HEADER } from '@/utils/const';
 import Head from 'next/head';
@@ -13,7 +13,7 @@ import { useOpenModal } from '@/hooks';
 import s from '@/styles/modal.module.css';
 
 type Props = {
-  data: Product[];
+  data: Products;
 };
 
 const Inventario: FC<Props> = ({ data }) => {
@@ -73,11 +73,11 @@ const Inventario: FC<Props> = ({ data }) => {
 
           <Table
             headers={TABLE_PRODUCTS_HEADER}
-            data={products as unknown as tableDataRecord[]}
+            data={products}
             row={(item, i) => (
               <ProductTableRow
                 key={i}
-                product={item as unknown as Product}
+                product={item}
                 openDeleteModal={openDeleteModal}
                 openEditModal={openEditModal}
               />
