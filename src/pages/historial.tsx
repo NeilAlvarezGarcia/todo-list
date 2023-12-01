@@ -1,6 +1,5 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
-import { Modal } from '@/components';
 import { PurchaseDetail, PurchaseTableRow } from '@/components/historial';
 import { useOpenModal } from '@/hooks';
 import { Purchase, Purchases } from '@/interfaces';
@@ -8,8 +7,6 @@ import { getPurchases } from '@/services';
 import { TABLE_HISTORIES_HEADER } from '@/utils/const';
 import Head from 'next/head';
 import { FC, useState } from 'react';
-import s from '@/styles/profile.module.css';
-import { formatCurrency, formatDate } from '@/utils/helpers';
 
 type Props = {
   purchases: Purchases;
