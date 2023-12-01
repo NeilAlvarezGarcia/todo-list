@@ -1,7 +1,7 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table } from '@/commons/Table';
 import { Modal } from '@/components';
-import { PurchaseTableRow } from '@/components/historial';
+import { PurchaseDetail, PurchaseTableRow } from '@/components/historial';
 import { useOpenModal } from '@/hooks';
 import { Purchase, Purchases } from '@/interfaces';
 import { getPurchases } from '@/services';
@@ -42,48 +42,7 @@ const Ventas: FC<Props> = ({ purchases }) => {
         </SectionLayout>
       </DashboardLayout>
 
-      <Modal open={modalOpen} closeModal={closeModal}>
-        <div className={s.detailWrapper}>
-          <h2>Detalle de venta</h2>
-
-          <div className={s.gridContent}>
-            <div className={s.group}>
-              <h4>Fecha registro:</h4>
-              <p>{formatDate(purchase?.createdAt ?? 0, 'DD/MM/YYYY')}</p>
-            </div>
-
-            <div className={s.group}>
-              <h4>Numero venta:</h4>
-              <p>{purchase?.purchaseId}</p>
-            </div>
-
-            <div className={s.group}>
-              <h4>Documento cliente:</h4>
-              <p>{purchase?.documentClientNumber}</p>
-            </div>
-
-            <div className={s.group}>
-              <h4>Nombre cliente:</h4>
-              <p>{purchase?.clientName}</p>
-            </div>
-
-            <div className={s.group}>
-              <h4>Subtotal:</h4>
-              <p>{formatCurrency(purchase?.subtotal)}</p>
-            </div>
-
-            <div className={s.group}>
-              <h4>IVA (18%):</h4>
-              <p>{formatCurrency(purchase?.ivaAmount)}</p>
-            </div>
-
-            <div className={s.group}>
-              <h4>Total:</h4>
-              <p>{formatCurrency(purchase?.total)}</p>
-            </div>
-          </div>
-        </div>
-      </Modal>
+      <PurchaseDetail purchase={purchase} modalOpen={modalOpen} closeModal={closeModal} />
     </>
   );
 };
