@@ -3,9 +3,9 @@ import Head from 'next/head';
 import s from '@/styles/sales.module.css';
 import { addPurchase, getAvailableProducts, getProducts, updateProductsStock } from '@/services';
 import { TABLE_PRODUCTS_PURCHASE_HEADER } from '@/utils/const';
-import { Product, Purchase } from '@/interfaces';
+import { Product, Products, Purchase } from '@/interfaces';
 import { ChangeEvent, FC, FormEvent, useMemo, useState } from 'react';
-import { Table, tableDataRecord } from '@/commons/Table';
+import { Table } from '@/commons/Table';
 import { generateRandomId, validateFormData } from '@/utils/helpers';
 import { AutoCompleteSelect } from '@/commons/forms';
 import moment from 'moment';
@@ -13,7 +13,7 @@ import { ClientInfo, PurchaseDetail } from '@/components/ventas';
 import { ProductPurchaseTableRow } from '@/components/ventas/ProductPurchaseTableRow';
 
 type Props = {
-  data: Product[];
+  data: Products;
 };
 
 export type ProductSelected = Product & { quantity: number };
@@ -100,15 +100,17 @@ const Ventas: FC<Props> = ({ data }) => {
     toggleLoader();
     try {
       const products = productsSelected.map((item) => ({ id: item.id, quantity: item.quantity }));
+      const id = generateRandomId(8);
 
       const purchase: Purchase = {
         createdAt: moment().valueOf(),
-        purchaseId: generateRandomId(8),
+        purchaseId: id,
         ...clientData,
         products,
         total,
         subtotal: subtotalPurchase,
         ivaAmount,
+        id,
       };
 
       await addPurchase(purchase);
@@ -183,16 +185,15 @@ const Ventas: FC<Props> = ({ data }) => {
 
                   <Table
                     headers={TABLE_PRODUCTS_PURCHASE_HEADER}
-                    data={productsSelected as unknown as tableDataRecord[]}
+                    data={productsSelected}
                     row={(product, i) => (
                       <ProductPurchaseTableRow
-                        key={product.id}
-                        product={product as unknown as ProductSelected}
+                        key={i}
+                        product={product}
                         removeProduct={removeProduct}
                       />
                     )}
                     emptyText='No hay productos agregados'
-                    hasPagination={false}
                   />
                 </div>
               </SectionLayout>

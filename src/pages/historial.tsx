@@ -1,9 +1,9 @@
 import { DashboardLayout, SectionLayout } from '@/commons/layouts';
-import { Table, tableDataRecord } from '@/commons/Table';
+import { Table } from '@/commons/Table';
 import { Modal } from '@/components';
 import { PurchaseTableRow } from '@/components/historial';
 import { useOpenModal } from '@/hooks';
-import { Purchase } from '@/interfaces';
+import { Purchase, Purchases } from '@/interfaces';
 import { getPurchases } from '@/services';
 import { TABLE_HISTORIES_HEADER } from '@/utils/const';
 import Head from 'next/head';
@@ -12,7 +12,7 @@ import s from '@/styles/profile.module.css';
 import { formatCurrency, formatDate } from '@/utils/helpers';
 
 type Props = {
-  purchases: Purchase[];
+  purchases: Purchases;
 };
 
 const Ventas: FC<Props> = ({ purchases }) => {
@@ -34,13 +34,9 @@ const Ventas: FC<Props> = ({ purchases }) => {
         <SectionLayout title='Historial de ventas'>
           <Table
             headers={TABLE_HISTORIES_HEADER}
-            data={purchases as unknown as tableDataRecord[]}
+            data={purchases}
             row={(item, i) => (
-              <PurchaseTableRow
-                key={i}
-                purchase={item as unknown as Purchase}
-                openDetailModal={openDetailModal}
-              />
+              <PurchaseTableRow key={i} purchase={item} openDetailModal={openDetailModal} />
             )}
           />
         </SectionLayout>

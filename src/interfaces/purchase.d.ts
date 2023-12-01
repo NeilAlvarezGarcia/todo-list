@@ -1,6 +1,7 @@
 export interface Purchase {
   createdAt: number;
   purchaseId: string;
+  id: string;
   documentClientNumber: string;
   clientName: string;
   products: { id: string; quantity: number }[];

@@ -9,11 +9,13 @@ async function addPurchase(data: Purchase) {
   await setDocument(PURCHASES, data.purchaseId, data);
 }
 
-async function getPurchases() {
-  return await getDocuments(PURCHASES);
+async function getPurchases(): Promise<Purchases> {
+  const data = await getDocuments(PURCHASES);
+
+  return data.sort((a, b) => b.createdAt - a.createdAt);
 }
 
-async function getSevenDaysPurchases() {
+async function getSevenDaysPurchases(): Promise<Purchases> {
   const sevenDaysAgoTimestamp = moment().subtract(7, 'days').valueOf();
 
   return await getDocumentsWhere(PURCHASES, 'createdAt', '>=', sevenDaysAgoTimestamp);
