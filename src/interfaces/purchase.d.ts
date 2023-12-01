@@ -8,3 +8,5 @@ export interface Purchase {
   subtotal: number;
   ivaAmount: number;
 }
+
+export type Purchases = Purchase[];

@@ -3,13 +3,13 @@ import s from '@/styles/Home.module.css';
 import { DashboardLayout } from '@/commons/layouts';
 
 import { getSevenDaysPurchases, getTopSales } from '@/services';
-import { Purchase } from '@/interfaces';
+import { Purchases } from '@/interfaces';
 import { FC } from 'react';
 import { Indicators, LastSevenDaysSale, TopSales } from '@/components/dashboard';
 
 type Props = {
-  lastSevenDaysPurchases: Purchase[];
-  topSales: Record<string, number>[];
+  lastSevenDaysPurchases: Purchases;
+  topSales: Record<string, number>;
 };
 
 const Home: FC<Props> = ({ lastSevenDaysPurchases, topSales }) => {

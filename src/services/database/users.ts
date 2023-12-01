@@ -1,18 +1,16 @@
 import { getDocument, getDocuments, setDocument } from '@/utils/helpers';
 import { USERS } from '@/utils/const';
-import { User } from '@/interfaces';
+import { User, Users } from '@/interfaces';
 
 async function addUser(data: User) {
-  return await setDocument(USERS, data.uid, data);
+  await setDocument(USERS, data.uid, data);
 }
 
-async function getUser(uid?: string) {
-  if (!uid) return;
-
-  return await getDocument(USERS, uid);
+async function getUser(uid: string): Promise<User> {
+  return (await getDocument(USERS, uid)) as User;
 }
 
-async function getUsers() {
+async function getUsers(): Promise<Users> {
   return await getDocuments(USERS);
 }
 

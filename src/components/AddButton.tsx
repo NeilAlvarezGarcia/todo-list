@@ -6,10 +6,16 @@ import { Modal } from './';
 type Props = {
   textBtn: string;
   children: (close: VoidFunction) => ReactNode;
+  reset?: VoidFunction;
 };
 
-export const AddButton: FC<Props> = ({ textBtn, children }) => {
+export const AddButton: FC<Props> = ({ textBtn, children, reset }) => {
   const [addOpen, openModal, closeModal] = useOpenModal();
+
+  const onclose = () => {
+    closeModal();
+    reset?.();
+  };
 
   return (
     <>
@@ -17,8 +23,8 @@ export const AddButton: FC<Props> = ({ textBtn, children }) => {
         {textBtn}
       </button>
 
-      <Modal open={addOpen} closeModal={closeModal}>
-        {children(closeModal)}
+      <Modal open={addOpen} closeModal={onclose}>
+        {children(onclose)}
       </Modal>
     </>
   );

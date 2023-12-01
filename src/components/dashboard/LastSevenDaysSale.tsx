@@ -1,14 +1,13 @@
 import { SectionLayout } from '@/commons/layouts';
 import { Bar } from 'react-chartjs-2';
 import s from '@/styles/Home.module.css';
-import { getLastSevenDays } from '@/utils/helpers';
-import moment from 'moment';
-import { Purchase } from '@/interfaces';
+import { formatDate, getLastSevenDays } from '@/utils/helpers';
+import { Purchases } from '@/interfaces';
 import { FC } from 'react';
 import { getDataSets, options } from '@/config/chartjs';
 
 type Props = {
-  lastSevenDaysPurchases: Purchase[];
+  lastSevenDaysPurchases: Purchases;
 };
 
 export const LastSevenDaysSale: FC<Props> = ({ lastSevenDaysPurchases }) => {
@@ -17,14 +16,19 @@ export const LastSevenDaysSale: FC<Props> = ({ lastSevenDaysPurchases }) => {
     return acc;
   }, {});
 
-  for (let t of lastSevenDaysPurchases) {
-    const purchaseDay = moment(t.createdAt).format('dddd');
+  for (let purchase of lastSevenDaysPurchases) {
+    const purchaseDay = formatDate(purchase.createdAt, 'dddd');
     days[purchaseDay] += 1;
   }
 
   const data = {
     labels: getLastSevenDays(),
-    datasets: [getDataSets(Object.values(days), 'Venta de los últimos 7 días')],
+    datasets: [
+      getDataSets({
+        data: Object.values(days),
+        label: 'Venta de los últimos 7 días',
+      }),
+    ],
   };
 
   return (

@@ -1,19 +1,23 @@
-export type UserRol = 'administrator' | 'employee';
+type UserRol = 'administrator' | 'employee';
 
-export interface User {
+interface User {
   email: string;
   role: UserRol;
   name: string;
   uid: string;
 }
 
-export interface FormData {
+type Users = User[];
+
+interface FormData {
   email: string;
   password: string;
   name?: string;
   role?: UserRol;
 }
 
-export interface UserContext {
+interface UserContext {
   user: User | null;
 }
+
+export { UserContext, UserRol, User, Users, FormData };

@@ -1,4 +1,4 @@
-import { Product, Purchase } from '@/interfaces';
+import { Product, Purchase, Purchases } from '@/interfaces';
 import { PURCHASES, inactiveProduct } from '@/utils/const';
 import { getDocuments, getDocumentsWhere, setDocument } from '@/utils/helpers';
 import moment from 'moment';
@@ -19,7 +19,7 @@ async function getSevenDaysPurchases() {
   return await getDocumentsWhere(PURCHASES, 'createdAt', '>=', sevenDaysAgoTimestamp);
 }
 
-async function getTopSales(purchases: Purchase[]) {
+async function getTopSales(purchases: Purchases) {
   const topSales: Record<string, number> = {};
 
   for (let purchase of purchases) {

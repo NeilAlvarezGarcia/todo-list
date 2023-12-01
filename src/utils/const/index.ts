@@ -6,3 +6,4 @@ export * from './auth';
 export * from './dbCollections';
 export * from './tableHeaders';
 export * from './product';
+export * from './types';

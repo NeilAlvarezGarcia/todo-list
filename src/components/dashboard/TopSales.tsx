@@ -5,18 +5,20 @@ import { FC } from 'react';
 import { Pie } from 'react-chartjs-2';
 
 type Props = {
-  topSales: Record<string, number>[];
+  topSales: Record<string, number>;
 };
 
 export const TopSales: FC<Props> = ({ topSales }) => {
+  const labels = Object.keys(topSales);
+  const pieData = Object.values(topSales).sort((a, b) => a - b);
+
   const data = {
-    labels: Object.keys(topSales),
+    labels,
     datasets: [
-      getDataSets(
-        Object.values(topSales).sort((a, b) => Number(a) - Number(b)) as unknown as number[],
-        '',
-        ['#FF6859', '#F2F53A', '#75F02E', '#D123F3', '#55EAFF', ' #FF55BC']
-      ),
+      getDataSets({
+        data: pieData,
+        bgColorOptions: ['#FF6859', '#F2F53A', '#75F02E', '#D123F3', '#55EAFF', ' #FF55BC'],
+      }),
     ],
   };
 

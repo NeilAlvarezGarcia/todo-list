@@ -1,4 +1,4 @@
-import { EMPLYEE_ROL, SIDEBAR } from '@/utils/const';
+import { EMPLYEE_ROL, SIDEBAR, voidFunction } from '@/utils/const';
 import React, {
   FC,
   PropsWithChildren,
@@ -13,7 +13,7 @@ import { SideBar, UIContext } from '@/interfaces';
 const INITIAL_STATE: UIContext = {
   sidebarOpen: false,
   sidebar: [],
-  toggleSideBar: () => {},
+  toggleSideBar: voidFunction,
 };
 
 const uiContext = createContext(INITIAL_STATE);
@@ -21,7 +21,7 @@ const uiContext = createContext(INITIAL_STATE);
 export const UiProvider: FC<PropsWithChildren> = ({ children }) => {
   const { user } = useUser();
 
-  const [sidebar, setSidebar] = useState<SideBar[] | []>([]);
+  const [sidebar, setSidebar] = useState<SideBar[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSideBar = () => setSidebarOpen((prevState) => !prevState);

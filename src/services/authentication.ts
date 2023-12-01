@@ -5,6 +5,7 @@ import { addUser } from '.';
 
 async function createUser({ email, password, ...rest }: FormData) {
   const res = await createUserWithEmailAndPassword(auth, email, password);
+
   await addUser({ email, uid: res.user.uid, ...rest } as User);
 }
 

@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import s from '@/styles/Home.module.css';
 import { populateIndicatorData } from '@/utils/helpers';
-import { Purchase } from '@/interfaces';
+import { Purchases } from '@/interfaces';
 
 type Props = {
-  purchases: Purchase[];
+  purchases: Purchases;
 };
 
 export const Indicators: FC<Props> = ({ purchases }) => {

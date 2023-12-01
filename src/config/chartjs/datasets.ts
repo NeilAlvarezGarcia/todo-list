@@ -1,8 +1,10 @@
-export function getDataSets(
-  data: (string | number)[],
-  label?: string,
-  bgColorOptions = ['#55EAFF']
-) {
+type Params = {
+  data: (string | number)[];
+  label?: string;
+  bgColorOptions?: string[];
+};
+
+export function getDataSets({ data, label, bgColorOptions = ['#55EAFF'] }: Params) {
   return {
     label,
     data,

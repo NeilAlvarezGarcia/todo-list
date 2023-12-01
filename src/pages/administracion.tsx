@@ -2,13 +2,13 @@ import { DashboardLayout, SectionLayout } from '@/commons/layouts';
 import { Table, tableDataRecord } from '@/commons/Table';
 import Head from 'next/head';
 import { getUsers } from '@/services';
-import { User } from '@/interfaces';
+import { User, Users } from '@/interfaces';
 import { FC, useState } from 'react';
 import { TABLE_USERS_HEADER, revalidateInterval } from '@/utils/const';
 import { AddUser, UserTableRow } from '@/components/administracion';
 
 type Props = {
-  data: User[];
+  data: Users;
 };
 
 const Administracion: FC<Props> = ({ data }) => {

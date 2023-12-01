@@ -1,8 +1,8 @@
 import { Basket, Dollar, Receipt } from '@/commons/icons';
-import { Purchase } from '@/interfaces';
+import { Purchases } from '@/interfaces';
 import { formatCurrency } from '.';
 
-function populateIndicatorData(purchases: Purchase[]) {
+function populateIndicatorData(purchases: Purchases) {
   const sales = {
     title: 'Cantidad de ventas',
     value: purchases.length,
