@@ -1,5 +1,4 @@
 import { Input } from '@/commons/forms';
-import { ChangeEvent, FormEvent, useState } from 'react';
 import formStyles from '@/styles/forms.module.css';
 import loginStyles from '@/styles/login.module.css';
 import { FormData } from '@/interfaces';
@@ -9,6 +8,7 @@ import { validateUserData } from '@/utils/helpers';
 import { loginUser } from '@/services';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context';
+import { useForm } from '@/hooks';
 
 const INITIAL_STATE: FormData = {
   email: '',
@@ -20,35 +20,22 @@ const Login = () => {
 
   const { user } = useUser();
 
-  const [formData, setFormData] = useState<FormData>(INITIAL_STATE);
-  const [errorLogin, setErrorLogin] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { onSubmit, onValueChange, watch, error, setError, loading, toggleLoader } =
+    useForm<FormData>(INITIAL_STATE);
+  const { email, password } = watch();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleSubmit = async (data: FormData) => {
+    const infoValidated = validateUserData(data);
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const toggleLoader = () => setLoading((prevState) => !prevState);
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const infoValidated = validateUserData(formData);
-
-    if (infoValidated) return setErrorLogin(infoValidated);
+    if (infoValidated) return setError(infoValidated);
 
     toggleLoader();
-    setErrorLogin('');
+    setError('');
 
     try {
-      await loginUser(formData);
+      await loginUser(data);
     } catch (error) {
-      setErrorLogin(errorMessages.invalidCredentials);
+      setError(errorMessages.invalidCredentials);
     } finally {
       toggleLoader();
       push(DASHBOARD);
@@ -73,25 +60,25 @@ const Login = () => {
           <p>Ingresa con tu usuario y contraseña</p>
         </header>
 
-        <form className={formStyles.form} onSubmit={handleSubmit}>
+        <form className={formStyles.form} onSubmit={onSubmit(handleSubmit)}>
           <Input
             label='Correo electrónico'
             name='email'
-            value={formData.email}
-            onValueChange={handleChange}
+            value={email}
+            onValueChange={onValueChange}
           />
           <Input
             label='Contraseña'
             name='password'
-            value={formData.password}
-            onValueChange={handleChange}
+            value={password}
+            onValueChange={onValueChange}
             type='password'
           />
 
           <button type='submit'>{loading ? 'Ingresando...' : 'Ingresar'}</button>
 
-          <p className={`${loginStyles.textError} ${Boolean(errorLogin) && loginStyles.active}`}>
-            {errorLogin}
+          <p className={`${loginStyles.textError} ${Boolean(error) && loginStyles.active}`}>
+            {error}
           </p>
         </form>
       </main>
