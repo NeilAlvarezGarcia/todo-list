@@ -12,14 +12,11 @@ export const TopSales: FC<Props> = ({ topSales }) => {
   const data = {
     labels: Object.keys(topSales),
     datasets: [
-      getDataSets(Object.values(topSales) as unknown as (string | number)[], '', [
-        '#FF6859',
-        '#F2F53A',
-        '#75F02E',
-        '#D123F3',
-        '#55EAFF',
-        ' #FF55BC',
-      ]),
+      getDataSets(
+        Object.values(topSales).sort((a, b) => Number(a) - Number(b)) as unknown as number[],
+        '',
+        ['#FF6859', '#F2F53A', '#75F02E', '#D123F3', '#55EAFF', ' #FF55BC']
+      ),
     ],
   };
 
