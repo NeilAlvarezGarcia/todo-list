@@ -49,7 +49,7 @@ const Ventas: FC<Props> = ({ purchases }) => {
           <div className={s.gridContent}>
             <div className={s.group}>
               <h4>Fecha registro:</h4>
-              <p>{formatDate(purchase?.createdAt ?? 0, 'DD/mm/yy')}</p>
+              <p>{formatDate(purchase?.createdAt ?? 0, 'DD/MM/YYYY')}</p>
             </div>
 
             <div className={s.group}>
