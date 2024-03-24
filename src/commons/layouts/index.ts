@@ -1,2 +1,2 @@
-export * from './DashboardLayout';
-export * from './SectionLayout';
+export { AuthLayout } from './AuthLayout';
+export { HomeLayout } from './HomeLayout';

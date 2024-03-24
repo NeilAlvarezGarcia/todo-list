@@ -1,8 +1,6 @@
-import { Loader } from '@/components';
 import { auth } from '@/config/firebase';
-import { User, UserContext } from '@/interfaces';
-import { getUser } from '@/services';
-import { onAuthStateChanged } from 'firebase/auth';
+import { UserContext } from '@/interfaces';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { FC, PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
 
 const INITIAL_STATE: UserContext = {
@@ -16,15 +14,8 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [loadingApp, setLoadingApp] = useState(true);
 
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userData = await getUser(user?.uid);
-
-        setUser(userData as User);
-      }
-
-      if (!user) setUser(null);
-
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
       stopLoader();
     });
 
@@ -37,9 +28,7 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     user,
   };
 
-  return (
-    <userContext.Provider value={value}>{loadingApp ? <Loader /> : children}</userContext.Provider>
-  );
+  return <userContext.Provider value={value}>{!loadingApp && children}</userContext.Provider>;
 };
 
 export const useUser = () => useContext(userContext);

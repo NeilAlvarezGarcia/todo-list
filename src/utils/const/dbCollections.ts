@@ -1,5 +1,3 @@
-const USERS = 'users';
-const PRODUCTS = 'products';
-const PURCHASES = 'purchases';
+const TODO = 'todo';
 
-export { USERS, PRODUCTS, PURCHASES };
+export { TODO };
