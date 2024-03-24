@@ -1,3 +1,3 @@
-const TODO = 'todo';
+const TODOS = 'todos';
 
-export { TODO };
+export { TODOS };

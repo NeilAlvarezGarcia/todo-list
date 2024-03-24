@@ -29,8 +29,12 @@ const Main = styled('main')`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
 `;
 const Container = styled('div')`
+  display: flex;
+  flex-direction: column;
   max-width: 1200px;
   width: 100%;
+  height: 100%;
 `;

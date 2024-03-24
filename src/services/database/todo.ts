@@ -1,17 +1,21 @@
-import { getDocument, getDocuments, setDocument } from '@/utils/helpers';
-import { TODO } from '@/utils/const';
+import { deleteDocument, getDocument, getDocuments, setDocument } from '@/utils/helpers';
+import { TODOS } from '@/utils/const';
 import { Todo } from '@/interfaces/todo';
 
 async function addTodo(data: Todo) {
-  await setDocument(TODO, '', data);
+  await setDocument(TODOS, data.id, data);
 }
 
 async function getTodo(uid: string): Promise<Todo> {
-  return (await getDocument(TODO, uid)) as Todo;
+  return (await getDocument(TODOS, uid)) as Todo;
 }
 
 async function getTodos(): Promise<Todo[]> {
-  return await getDocuments(TODO);
+  return await getDocuments(TODOS);
 }
 
-export { addTodo, getTodo, getTodos };
+async function deleteTodo(id: string) {
+  await deleteDocument(TODOS, id);
+}
+
+export { addTodo, getTodo, getTodos, deleteTodo };

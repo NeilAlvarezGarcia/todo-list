@@ -1,8 +1,5 @@
 import randomstring from 'randomstring';
 
-function validateFormData(formData: any) {
-  return Object.values(formData).every((val) => Boolean(val));
-}
 function generateRandomId(length = 12) {
   return randomstring.generate({
     length,
@@ -10,4 +7,4 @@ function generateRandomId(length = 12) {
   });
 }
 
-export { validateFormData, generateRandomId };
+export { generateRandomId };

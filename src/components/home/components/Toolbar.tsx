@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@/commons/button';
 import { DatePicker, InputSearch, SelectInput } from '@/commons/forms';
-import { PriorityOptions, StatusOptions } from '../constants/dropdownOptions';
 import Link from 'next/link';
 import { ADD_TODO } from '@/utils/const';
 

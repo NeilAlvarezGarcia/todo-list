@@ -1,15 +1,12 @@
-function formatDate(timeStamp: number, format = 'dddd D MMMM, h:mm:ss A') {
-  return moment(timeStamp).format(format);
-}
+import dayjs from 'dayjs';
 
-function getLastSevenDays(format = 'dddd D') {
-  const lastSevenDays: string[] = [];
+export const formatDate = (dateString: string | number) => {
+  const date = dayjs(dateString);
+  const dayOfWeek = date.format('dddd');
+  const dayOfMonth = date.format('D');
+  const month = date.format('MMMM');
+  const year = date.format('YYYY');
+  const time = date.format('h:mma');
 
-  for (let i = 6; i >= 0; i--) {
-    const dayAgo = moment().subtract(i, 'days').format(format);
-    lastSevenDays.push(dayAgo);
-  }
-  return lastSevenDays;
-}
-
-export { formatDate, getLastSevenDays };
+  return `${dayOfWeek} ${dayOfMonth} ${time}, ${month} ${year}`;
+};
