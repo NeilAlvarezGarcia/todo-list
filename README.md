@@ -1,4 +1,14 @@
-## Store-line -- Getting Started
+## Todo list -- Getting Started
+
+First, run the installation packages:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
 
 First, run the development server:
 
@@ -8,22 +18,10 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-This project was made with Reactjs (Nextjs), CSS modules and Firebase to get access to data
+This project was made with Reactjs (Nextjs), Material UI, Styled components and Firebase to get access to data
 
-It is a Dashboard admin that hash a login system. It allows you to see a sale's and purchase's resume with charts and. You have a panel where you can manage users (Admin and Employee). A panel where you can add, edit and delete products in the inventory. You can sale those products and also see the histories
+It is a Todo-list system. It allows the user to create an account, login and logout, Once you create an account, you can create, edit and delete a to-do item. In the list page you can filter the result by the date created, the status, priority or by a search input.
 
-Users access
-
-Admin:
-email: admin@gmail.com
-password: admin123
-
-Employee:
-email: user@gmail.com
-password: user1234
-
-Deployed on vercel. Check the demo [store-line](https://store-line.vercel.app/ "store-line")
+Deployed on vercel. Check the demo [todo-list](https://store-line.vercel.app/ 'todo-list')

@@ -21,7 +21,7 @@ async function getTodos(): Promise<Todo[]> {
   return await getDocuments(TODOS);
 }
 async function getTodosByUserId(userId: string): Promise<Todo[]> {
-  return await getDocumentsWhere(TODOS, 'userId', '==', userId);
+  return await getDocumentsWhere(TODOS, 'userId', '==', userId, 'createdAt', 'desc');
 }
 
 async function updateTodo(data: Todo) {

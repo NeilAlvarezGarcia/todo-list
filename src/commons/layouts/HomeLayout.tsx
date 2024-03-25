@@ -25,7 +25,7 @@ export function HomeLayout({ children }: PropsWithChildren) {
 }
 
 const Main = styled('main')`
-  padding: 22px;
+  padding: 22px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;

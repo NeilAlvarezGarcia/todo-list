@@ -6,12 +6,17 @@ import Link from 'next/link';
 import { ADD_TODO } from '@/utils/const';
 import { PriorityOptions, StatusOptions } from '@/utils/const/dropdownOptions';
 import { useFilterParams } from '@/hooks';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export function Toolbar() {
   const { filterValues, handleClearFilters, handleFilterChange, hasFilters } = useFilterParams();
 
   return (
     <StyledToolbar>
+      <Button variant='outlined'>
+        <MenuIcon />
+      </Button>
+
       <LeftContainer>
         <DatePicker
           id='created-date'
@@ -71,4 +76,11 @@ const LeftContainer = styled('div')`
   display: flex;
   align-items: center;
   gap: 12px;
+
+  @media (max-width: 1000px) {
+    position: fixed;
+    z-index: 10;
+    background-color: ${({ theme }) => theme.white};
+    display: none;
+  }
 `;

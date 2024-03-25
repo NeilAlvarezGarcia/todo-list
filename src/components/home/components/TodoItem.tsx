@@ -64,10 +64,11 @@ export function TodoItem({ todo }: Props) {
           <Button
             endIcon={<EditRoundedIcon />}
             component={Link}
+            size='small'
             href={`/edit-todo?id=${id}&title=${title}&description=${description}&priority=${priority}&status=${status}`}>
             Edit
           </Button>
-          <Button endIcon={<DeleteRoundedIcon />} color='error' onClick={handleDelete}>
+          <Button endIcon={<DeleteRoundedIcon />} size='small' color='error' onClick={handleDelete}>
             {deleting ? 'Deleting...' : 'Delete'}
           </Button>
         </StyledCardActions>
@@ -80,6 +81,13 @@ const CardHeader = styled('div')`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+
+  @media (max-width: 470px) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
 `;
 
 const StyledCard = styled(Card)`
@@ -94,6 +102,12 @@ const DetailContainer = styled('div')`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 470px) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 10px;
+  }
 `;
 
 const Status = styled(Text).withConfig({

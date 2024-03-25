@@ -1,11 +1,13 @@
 import { db } from '@/config/firebase';
 import {
+  OrderByDirection,
   WhereFilterOp,
   collection,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
+  orderBy,
   query,
   setDoc,
   updateDoc,
@@ -31,13 +33,19 @@ async function getDocuments(collectionName: string) {
 }
 async function getDocumentsWhere(
   collectionName: string,
-  field: string,
+  fieldWhere: string,
   condition: WhereFilterOp,
-  value: string | number
+  value: string | number,
+  fieldOrderBy?: string,
+  order?: OrderByDirection
 ) {
   let data: any[] = [];
 
-  const q = query(collection(db, collectionName), where(field, condition, value));
+  const q = query(
+    collection(db, collectionName),
+    where(fieldWhere, condition, value),
+    orderBy(fieldOrderBy as string, order)
+  );
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
