@@ -10,6 +10,8 @@ yarn install
 pnpm install
 ```
 
+Then create .env file and add all the variables required to connect firebase. (Request env variables if needed).
+
 Then, run the development server:
 
 ```bash
