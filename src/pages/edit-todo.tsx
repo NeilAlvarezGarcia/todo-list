@@ -1,4 +1,4 @@
-import { AddTodo } from '@/components/edit-todo';
+import { EditTodo } from '@/components/edit-todo';
 import Head from 'next/head';
 
 const AddTodoPage = () => {
@@ -8,7 +8,7 @@ const AddTodoPage = () => {
         <title>Edit Todo</title>
       </Head>
 
-      <AddTodo />
+      <EditTodo />
     </>
   );
 };

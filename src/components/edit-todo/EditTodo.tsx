@@ -6,10 +6,10 @@ import { Button } from '@/commons/button';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Link from 'next/link';
 import { HOME } from '@/utils/const';
-import { PriorityOptions } from '@/utils/const/dropdownOptions';
-import AddTodoFormProvider from './providers/AddTodoFormProvider';
+import { PriorityOptions, StatusOptions } from '@/utils/const/dropdownOptions';
+import AddTodoFormProvider from './providers/EditTodoFormProvider';
 
-export function AddTodo() {
+export function EditTodo() {
   return (
     <HomeLayout>
       <Button
@@ -23,13 +23,14 @@ export function AddTodo() {
 
       <AddTodoFormProvider>
         <Container>
-          <Text type='h2'>Create To-do</Text>
+          <Text type='h2'>Edit To-do</Text>
 
           <TextInput id='title' label='Title' />
           <TextInput id='description' label='description' />
           <SelectInput options={PriorityOptions} id='priority' label='Priority' />
+          <SelectInput options={StatusOptions} id='status' label='Status' />
 
-          <SubmitButton text='Create' loadingText='Creating...' />
+          <SubmitButton text='Edit' loadingText='Editing...' />
         </Container>
       </AddTodoFormProvider>
     </HomeLayout>

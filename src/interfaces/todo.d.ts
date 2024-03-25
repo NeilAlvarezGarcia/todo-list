@@ -5,7 +5,7 @@ enum Priority {
 }
 
 enum Status {
-  New = 'New',
+  ReadyToDo = 'Ready_To_Do',
   InProgress = 'In_Progress',
   Done = 'Done',
 }
@@ -20,5 +20,4 @@ interface Todo {
   userId: string;
 }
 
-export { Priority, Status };
-export type { Todo };
+export { Priority, Status, Todo };

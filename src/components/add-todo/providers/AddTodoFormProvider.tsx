@@ -5,7 +5,7 @@ import { PropsWithChildren, useState } from 'react';
 import { ErrorMessage } from '@/commons/forms';
 import { HOME } from '@/utils/const';
 import { AddTodoSchema } from '../schemas/addTodoSchema';
-import { Priority, Status, Todo } from '@/interfaces/todo';
+import { Priority, Status, Todo } from '@/interfaces';
 import { useUser } from '@/context';
 import dayjs from 'dayjs';
 import { generateRandomId } from '@/utils/helpers';
@@ -23,15 +23,15 @@ const AddTodoFormProvider = ({ children }: PropsWithChildren) => {
 
   const handleSubmit = async (data: Todo) => {
     try {
-      const formattedDate = {
+      const formattedData = {
         ...data,
         id: generateRandomId(),
-        status: Status.New,
+        status: Status.ReadyToDo,
         userId: user?.uid || '',
         createdAt: dayjs().valueOf(),
       };
 
-      await addTodo(formattedDate);
+      await addTodo(formattedData);
       setError('');
       push(HOME);
     } catch (err: any) {

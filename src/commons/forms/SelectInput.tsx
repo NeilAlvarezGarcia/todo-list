@@ -22,9 +22,9 @@ export const SelectInput: FC<Props & SelectProps> = ({ id, label, options = [], 
       name={id}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <FormControl variant='filled'>
+        <FormControl variant='filled' sx={{ minWidth: '120px' }}>
           <InputLabel htmlFor={id}>{label}</InputLabel>
-          <SelectBase id={id} error={!!error} {...props} {...field}>
+          <SelectBase id={id} error={!!error} {...props} {...field} size='small'>
             {options?.map(({ value, label }) => (
               <MenuItem key={value} value={value}>
                 {label}
@@ -36,9 +36,9 @@ export const SelectInput: FC<Props & SelectProps> = ({ id, label, options = [], 
       )}
     />
   ) : (
-    <FormControl variant='filled'>
+    <FormControl variant='filled' sx={{ minWidth: '120px' }}>
       <InputLabel id={id}>{label}</InputLabel>
-      <SelectBase id={id} {...props}>
+      <SelectBase id={id} {...props} size='small'>
         {options?.map(({ value, label }) => (
           <MenuItem key={value} value={value}>
             {label}

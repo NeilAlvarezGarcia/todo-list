@@ -1,17 +1,24 @@
-import { useState } from 'react';
-import { Button } from '@/commons/button';
 import { List } from '@mui/material';
 import styled from 'styled-components';
-import ViewModuleRoundedIcon from '@mui/icons-material/ViewModuleRounded';
-import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
 import { TodoItem } from './TodoItem';
 import { useTodosQuery } from '../providers/TodosQueryProvider';
 import { Text } from '@/commons/text';
+import AddIcon from '@mui/icons-material/Add';
+import { Button } from '@/commons/button';
+import Link from 'next/link';
+import { ADD_TODO } from '@/utils/const';
+import { useFilterParams } from '@/hooks';
 
 export function TodoList() {
   const { loading, todos } = useTodosQuery();
+  const { hasFilters } = useFilterParams();
 
-  if (loading) return null;
+  if (loading)
+    return (
+      <CenterContainer>
+        <Text type='h2'>Loading...</Text>
+      </CenterContainer>
+    );
 
   return (
     <Container>
@@ -22,7 +29,12 @@ export function TodoList() {
           ))}
         </StyledList>
       ) : (
-        <Text textAlign='center'>No todo</Text>
+        <CenterContainer>
+          <Text type='h3'>{hasFilters ? 'No to-do was found.' : 'No to-do added yet.'}</Text>
+          <Button endIcon={<AddIcon />} component={Link} href={ADD_TODO}>
+            Add a new todo
+          </Button>
+        </CenterContainer>
       )}
     </Container>
   );
@@ -39,13 +51,15 @@ const Container = styled('div')`
   overflow: hidden;
 `;
 
-const ActionButtons = styled('div')`
+const CenterContainer = styled('div')`
   display: flex;
-  justify-content: flex-end;
-
-  @media (max-width: 800px) {
-    display: none;
-  }
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  margin: 0 auto;
+  gap: 16px;
+  max-width: 300px;
 `;
 
 const StyledList = styled(List)`

@@ -5,12 +5,11 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import { Text } from '@/commons/text';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import { formatDate } from '@/utils/helpers';
-import { Todo } from '@/interfaces/todo';
+import { Todo } from '@/interfaces';
 import { priorityColors, statusColors } from '@/utils/const';
 import { useMemo, useState } from 'react';
 import { deleteTodo } from '@/services';
 import { useTodosQuery } from '../providers/TodosQueryProvider';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface Props {
@@ -18,11 +17,10 @@ interface Props {
 }
 
 export function TodoItem({ todo }: Props) {
-  const { push } = useRouter();
   const { refetch } = useTodosQuery();
   const { createdAt, description, priority, status, title, id } = todo || {};
 
-  const parsedStatus = useMemo(() => status.replace('_', ' '), [status]);
+  const parsedStatus = useMemo(() => status.replaceAll('_', ' '), [status]);
 
   const [deleting, setDeleting] = useState(false);
 
@@ -63,7 +61,10 @@ export function TodoItem({ todo }: Props) {
         </CardContent>
 
         <StyledCardActions>
-          <Button endIcon={<EditRoundedIcon />} component={Link} href='/edit-todo'>
+          <Button
+            endIcon={<EditRoundedIcon />}
+            component={Link}
+            href={`/edit-todo?id=${id}&title=${title}&description=${description}&priority=${priority}&status=${status}`}>
             Edit
           </Button>
           <Button endIcon={<DeleteRoundedIcon />} color='error' onClick={handleDelete}>

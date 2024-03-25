@@ -1,4 +1,4 @@
-import { Priority, Status } from '@/interfaces/todo';
+import { Priority, Status } from '@/interfaces';
 
 export const PriorityOptions = [
   {
@@ -17,8 +17,8 @@ export const PriorityOptions = [
 
 export const StatusOptions = [
   {
-    label: 'New',
-    value: Status.New,
+    label: 'Ready To Do',
+    value: Status.ReadyToDo,
   },
   {
     label: 'In Progress',

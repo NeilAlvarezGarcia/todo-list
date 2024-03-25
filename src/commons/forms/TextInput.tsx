@@ -17,7 +17,7 @@ export function TextInput({ id, label, ...props }: InputPropsBase) {
       render={({ field, fieldState: { error } }) => (
         <FormControl variant='filled'>
           <InputLabel htmlFor={id}>{label}</InputLabel>
-          <FilledInput id={id} error={!!error} {...props} {...field} />
+          <FilledInput id={id} error={!!error} {...props} {...field} size='small' />
           <Text error>{error?.message}</Text>
         </FormControl>
       )}
@@ -25,7 +25,7 @@ export function TextInput({ id, label, ...props }: InputPropsBase) {
   ) : (
     <FormControl variant='filled'>
       <InputLabel htmlFor={id}>{label}</InputLabel>
-      <FilledInput id={id} {...props} />
+      <FilledInput id={id} {...props} size='small' />
     </FormControl>
   );
 }

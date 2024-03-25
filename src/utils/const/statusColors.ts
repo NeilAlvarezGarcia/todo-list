@@ -1,8 +1,8 @@
-import { Status } from '@/interfaces/todo';
+import { Status } from '@/interfaces';
 import { theme } from '@/styles';
 
 export const statusColors = {
-  [Status.New]: theme.gray,
+  [Status.ReadyToDo]: theme.gray,
   [Status.InProgress]: theme.lightYellow,
-  [Status.Done]: theme.lightBlue,
+  [Status.Done]: theme.lightGreen,
 };

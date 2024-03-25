@@ -1,51 +1,41 @@
-import { addTodo, getTodo } from '@/services';
+import { getTodo, updateTodo } from '@/services';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FormProvider } from '@/commons/forms/FormProvider';
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
+import { PropsWithChildren, useMemo, useState } from 'react';
 import { ErrorMessage } from '@/commons/forms';
 import { HOME } from '@/utils/const';
 import { AddTodoSchema } from '../schemas/addTodoSchema';
-import { Status, Todo } from '@/interfaces/todo';
-import { useUser } from '@/context';
-import dayjs from 'dayjs';
-import { generateRandomId } from '@/utils/helpers';
+import { Todo } from '@/interfaces';
 
 const AddTodoFormProvider = ({ children }: PropsWithChildren) => {
   const { push } = useRouter();
-  const { user } = useUser();
   const [error, setError] = useState('');
-  const [todo, setTodo] = useState<Todo | null>(null);
 
   const searchParams = useSearchParams();
   const todoId = searchParams.get('id');
+  const title = searchParams.get('title');
+  const description = searchParams.get('description');
+  const priority = searchParams.get('priority');
+  const status = searchParams.get('status');
 
   const INITIAL_VALUES = useMemo(
-    () => ({
-      ...todo,
-    }),
-    [todo]
+    () =>
+      ({
+        title,
+        description,
+        priority,
+        status,
+      } as Todo),
+    [description, priority, status, title]
   );
-
-  const queryTodo = useCallback(async () => {
-    const todo = await getTodo(todoId ?? '');
-    setTodo(todo);
-  }, [todoId]);
-
-  useEffect(() => {
-    queryTodo();
-  }, [queryTodo, todoId]);
 
   const handleSubmit = async (data: Todo) => {
     try {
-      const formattedDate = {
+      const todo = await getTodo(todoId ?? '');
+      await updateTodo({
+        ...todo,
         ...data,
-        id: generateRandomId(),
-        status: Status.New,
-        userId: user?.uid || '',
-        createdAt: dayjs().valueOf(),
-      };
-
-      await addTodo(formattedDate);
+      });
       setError('');
       push(HOME);
     } catch (err: any) {

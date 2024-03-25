@@ -1,4 +1,4 @@
-import { Priority } from '@/interfaces/todo';
+import { Priority } from '@/interfaces';
 import { theme } from '@/styles';
 
 export const priorityColors = {
